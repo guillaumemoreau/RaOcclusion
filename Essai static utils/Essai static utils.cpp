@@ -39,7 +39,7 @@ or implied, of Rafael Muñoz Salinas.
 using namespace cv;
 using namespace aruco;
 
-int main( int argc, char** argv )
+int autre_main( int argc, char** argv )
 {
     try
     {

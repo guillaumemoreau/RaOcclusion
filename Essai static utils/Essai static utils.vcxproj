@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Essai static utils.cpp" />
+    <ClCompile Include="aruco_test_video.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArucoLib\ArucoLib.vcxproj">
