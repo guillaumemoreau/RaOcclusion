@@ -119,6 +119,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="aruco_test_board_gl.cpp" />
     <ClCompile Include="Essai static utils.cpp" />
     <ClCompile Include="aruco_test_video.cpp" />
   </ItemGroup>
@@ -126,6 +127,9 @@
     <ProjectReference Include="..\ArucoLib\ArucoLib.vcxproj">
       <Project>{ddad214f-4a14-49b2-912e-a6bae364fc24}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
