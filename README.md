@@ -8,5 +8,5 @@ Le projet se base sur les librairies OpenCV et Aruco et est développé sous Vis
 Ayant eu des difficultés à faire fonctionner Aruco sous Windows (et plus particulièrement sous Visual Studio), voici la démarche à suivre :
 
   - Il vous télécharger les fichiers sources d'aruco, disponible uniquement dans le package linux. Décompresser le package en .tgz (passez sous linux si nécessaire)
-   - Créez une librairie statique avec les fichiers téléchargés (tutoriel disponible ici : http://msdn.microsoft.com/FR-FR/library/ms235627%28v=vs.90%29.aspx )
-   - Il vous faudra ensuite créer des solutions dépendantes du projet ayant permis de créer la librairie statique Aruco.
+  - Créez une librairie statique avec les fichiers téléchargés (tutoriel disponible ici : http://msdn.microsoft.com/FR-FR/library/ms235627%28v=vs.90%29.aspx )
+  - Il vous faudra ensuite créer des solutions dépendantes du projet ayant permis de créer la librairie statique Aruco.
