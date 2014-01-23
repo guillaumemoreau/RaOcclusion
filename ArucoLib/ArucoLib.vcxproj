@@ -77,17 +77,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\aruco.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\arucofidmarkers.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\board.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\boarddetector.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\cameraparameters.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\cvdrawingutils.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\exports.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\marker.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\aruco_msvc10\src\markerdetector.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\Aruco Sources File\arucofidmarkers.cpp" />
     <ClCompile Include="..\Aruco Sources File\board.cpp" />
     <ClCompile Include="..\Aruco Sources File\boarddetector.cpp" />

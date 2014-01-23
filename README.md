@@ -10,3 +10,11 @@ Ayant eu des difficultés à faire fonctionner Aruco sous Windows (et plus parti
   - Il vous télécharger les fichiers sources d'aruco, disponible uniquement dans le package linux. Décompresser le package en .tgz (passez sous linux si nécessaire)
   - Créez une librairie statique avec les fichiers téléchargés (tutoriel disponible ici : http://msdn.microsoft.com/FR-FR/library/ms235627%28v=vs.90%29.aspx )
   - Il vous faudra ensuite créer des solutions dépendantes du projet ayant permis de créer la librairie statique Aruco.
+
+=======
+
+A noter qu'à la génération, une dll sera requise dans le dossier d'exécution du programme : freeglut.dll
+
+
+L'ensemble du projet est censé fonctionner sous d'autres OS, à condition que les librairies OpenCv et Aruco soient disponibles, lors de la compilation des fichiers sources.
+
