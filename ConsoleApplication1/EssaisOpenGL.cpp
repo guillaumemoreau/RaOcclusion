@@ -64,7 +64,7 @@ Fonction d'affichage
 */
 void Draw()             
 {
-	//Efface les buffers en param
+	//Vide les buffers en param
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 	
 	//Choisit la matrice MODELVIEW

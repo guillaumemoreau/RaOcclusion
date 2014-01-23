@@ -121,6 +121,7 @@ int main(int argc,char **argv)
         TheCameraParams.readFromXMLFile(TheIntrinsicFile);
         TheCameraParams.resize( TheInputImage.size());
 
+		//init glut information and init
         glutInit(&argc, argv);
         glutInitWindowPosition( 0, 0);
         glutInitWindowSize(TheInputImage.size().width,TheInputImage.size().height);
@@ -244,7 +245,7 @@ void vDrawScene()
         glColor3f(0,1,0);
         glTranslatef(0, TheMarkerSize/2,0);
         glPushMatrix();
-        glutWireCube( TheMarkerSize );
+        glutWireTeapot( TheMarkerSize );
         axis(TheMarkerSize);
         glPopMatrix();
     }
