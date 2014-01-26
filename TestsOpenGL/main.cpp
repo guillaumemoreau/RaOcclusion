@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <iostream>
 
 
 #ifdef __WIN32__
@@ -43,7 +44,7 @@ GLfloat mat_shininess[]= { 1.0f };
  *
 ************************************/
 
-void init(void)
+void init(char *obj)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0); // Clear background color to black
 
@@ -87,7 +88,7 @@ for (int i=0;i<2;i++)
 {
 printf("*************\n");
     objarray[i] = new (object_type);
-    objarray[i]->objloader("C:/Users/Sebastien/Dropbox/RAOcclusion/Obj/voiture.obj");
+    objarray[i]->objloader(obj);
     objarray[i]->objdatadisplay();      
 }
 
@@ -230,8 +231,8 @@ glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our ca
 
 if (objarray[0]->id_texture!=-1) 
 {
-   // glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
-    //glEnable(GL_TEXTURE_2D); // Texture mapping ON
+    glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
+    glEnable(GL_TEXTURE_2D); // Texture mapping ON
     //printf("Txt map ON");
 }
 else
@@ -257,21 +258,32 @@ glutSwapBuffers(); // In double buffered mode we invert the positions of the vis
 
 int main(int argc, char **argv)
 {
+	if (argc!=2) {
+        std::cerr<<"Invalid number of arguments"<<std::endl;
+        std::cerr<<"Usage: (in.avi|live) boardConfig.yml  intrinsics.yml   size "<<std::endl;
+        return false;
+    }
     // We use the GLUT utility to initialize the window, to handle the input and to interact with the windows system
     glutInit(&argc, argv);    
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(0,0);
-    glutCreateWindow("Demo 1: To exit press ESC");    
+    glutCreateWindow("Echap pour quitter");    
     glutDisplayFunc(display);
     glutIdleFunc(display);
     glutReshapeFunc (resize);
 
-	// mouse movement and keyboard
-	glutPassiveMotionFunc(mouseMovement); 
+	// (mouse) movement and keyboard
+	//glutPassiveMotionFunc(mouseMovement); 
 	glutKeyboardFunc (keyboard); 
 
-	init();
+	std::string obj = argv[1];
+	char *cstr = new char[obj.length() + 1];
+	strcpy(cstr, obj.c_str());
+	// do stuff
+	
+	init(cstr);
+	delete [] cstr;
     glutMainLoop();
 
     return(0);    
