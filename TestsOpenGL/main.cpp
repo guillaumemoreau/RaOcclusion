@@ -73,7 +73,7 @@ glMaterialfv (GL_FRONT, GL_AMBIENT, mat_ambient);
 //Other initializations
     glShadeModel(GL_SMOOTH); // Type of shading for the polygons
 glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Texture mapping perspective correction
-    glEnable(GL_TEXTURE_2D); // Texture mapping ON
+    //glEnable(GL_TEXTURE_2D); // Texture mapping ON
     glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
 glEnable(GL_CULL_FACE); // Enable the back face culling
     glEnable(GL_DEPTH_TEST); // Enable the depth test 
@@ -87,7 +87,7 @@ for (int i=0;i<2;i++)
 {
 printf("*************\n");
     objarray[i] = new (object_type);
-    objarray[i]->objloader("C:/Users/max/Dropbox/RAOcclusion/Obj/voiture.obj");
+    objarray[i]->objloader("C:/Users/Sebastien/Dropbox/RAOcclusion/Obj/voiture.obj");
     objarray[i]->objdatadisplay();      
 }
 
@@ -230,9 +230,9 @@ glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our ca
 
 if (objarray[0]->id_texture!=-1) 
 {
-    glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
-    glEnable(GL_TEXTURE_2D); // Texture mapping ON
-    printf("Txt map ON");
+   // glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
+    //glEnable(GL_TEXTURE_2D); // Texture mapping ON
+    //printf("Txt map ON");
 }
 else
     glDisable(GL_TEXTURE_2D); // Texture mapping OFF
@@ -268,7 +268,7 @@ int main(int argc, char **argv)
     glutReshapeFunc (resize);
 
 	// mouse movement and keyboard
-	// glutPassiveMotionFunc(mouseMovement); 
+	glutPassiveMotionFunc(mouseMovement); 
 	glutKeyboardFunc (keyboard); 
 
 	init();

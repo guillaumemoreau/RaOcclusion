@@ -133,8 +133,6 @@ while (!feof(l_file)) //Loop to scan the whole file
         {
         case ' ':   //a vertex -expect and so read 3 floats next
               fscanf(l_file,"%f %f %f",&vertex[ivertex].x, &vertex[ivertex].y,&vertex[ivertex].z);
-
-
               ivertex++;
               break;
         case 'n': //a normal -expect and so read 3 floats next
