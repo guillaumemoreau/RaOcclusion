@@ -1,3 +1,4 @@
+#include "cameraPos.h"
 #include "objloader.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,14 +6,15 @@
 #include <iostream>
 
 
+using namespace cv;
+using namespace aruco;
+
+
 #ifdef __WIN32__
 #include <windows.h>
 #endif
 
 #include "GL\glut.h"  //glut has all ogl relevant .h files included 
-
-int screen_width=800;
-int screen_height=600;
 
 //angle of rotation
 float xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, angle=0.0;
@@ -35,6 +37,23 @@ GLfloat mat_diffuse[]= { 0.5f, 0.5f, 0.0f, 0.0f };
 GLfloat mat_specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
 GLfloat mat_shininess[]= { 1.0f };
 
+int screen_width=800,screen_height=600;
+
+//Pour la détection des marqueurs => Camera Position par Aruco
+string TheInputVideo,TheIntrinsicFile,TheBoardConfigFile;
+float TheMarkerSize=-1;
+VideoCapture TheVideoCapturer;
+Mat TheInputImage,TheUndInputImage,TheResizedImage;
+CameraParameters TheCameraParams;
+Size TheGlWindowSize=Size(screen_width,screen_height);
+bool TheCaptureFlag=true; 
+MarkerDetector MDetector;
+vector<Marker> TheMarkers;
+//board
+BoardDetector TheBoardDetector;
+BoardConfiguration TheBoardConfig;
+pair<Board,float> TheBoardDetected; //the board and its probability
+
 
 /************************************
  *
@@ -44,7 +63,7 @@ GLfloat mat_shininess[]= { 1.0f };
  *
 ************************************/
 
-void init(char *obj)
+void init(string obj)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0); // Clear background color to black
 
@@ -120,6 +139,7 @@ if (screen_width==0 && screen_height==0) exit(0);
     gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,5.0f,10000.0f);
 
     glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
+	TheGlWindowSize=Size(screen_width,screen_height); //aruco
 }
 
 /**********************************************************
@@ -217,17 +237,18 @@ void display(void)
 {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // This clear the background color to dark blue
-    glMatrixMode(GL_MODELVIEW); // Modeling transformation
+    glMatrixMode(GL_PROJECTION);
     glPushMatrix();
-glLoadIdentity(); // Initialize the model matrix as identity
+	glLoadIdentity(); // Initialize the model matrix as identity
 
+	/** Pour déplacer la caméra par souris/clavier, bon moyen vu qu'on track la caméra !
     glTranslatef(0.0f, 0.0f, -cRadius); // We move the object forward (the model matrix is multiplied by the translation matrix)
     glRotatef(xrot,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
 
     glRotatef(yrot,0.0,1.0,0.0);
-
-glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our camera
-
+	**/
+	glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our camera
+	
 
 if (objarray[0]->id_texture!=-1) 
 {
@@ -239,15 +260,61 @@ else
     glDisable(GL_TEXTURE_2D); // Texture mapping OFF
 
 
-objarray[0]->render();
+/** Sert à ?
 glPopMatrix();
 glPushMatrix();
 glTranslatef(5.0,0.0,-20.0);
-glFlush(); // This force the execution of OpenGL commands
-glutSwapBuffers(); // In double buffered mode we invert the positions of the visible buffer and the writing buffer
+**/
+
+	/**Aruco et OpenCv dependances ! **/
+	double proj_matrix[16];
+    TheCameraParams.glGetProjectionMatrix(TheInputImage.size(),TheGlWindowSize,proj_matrix,0.05,10);
+    glLoadIdentity();
+    glLoadMatrixd(proj_matrix);
+    glLineWidth(2);
+    //now, for each marker,
+    double modelview_matrix[16];
+
+    //If the board is detected with enough probability
+    if (TheBoardDetected.second>0.3) {
+        TheBoardDetected.first.glGetModelViewMatrix(modelview_matrix);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glLoadMatrixd(modelview_matrix);
+        glColor3f(0,1,0);
+        glTranslatef(0, TheMarkerSize/2,0);
+        glPushMatrix();
+        glutWireTeapot( TheMarkerSize );
+        axis(TheMarkerSize);
+        glPopMatrix();
+    }
+	glFlush(); // This force the execution of OpenGL commands
+    glutSwapBuffers(); // In double buffered mode we invert the positions of the visible buffer and the writing buffer
 }
 
+/** vIdle, détecte les marqueurs entre chaque itération **/
 
+void vIdle()
+{
+    if (TheCaptureFlag) {
+        //capture image
+        TheVideoCapturer.grab();
+        TheVideoCapturer.retrieve( TheInputImage);
+        TheUndInputImage.create(TheInputImage.size(),CV_8UC3);
+        //by deafult, opencv works in BGR, so we must convert to RGB because OpenGL in windows preffer
+        cv::cvtColor(TheInputImage,TheInputImage,CV_BGR2RGB);
+        //remove distorion in image
+        cv::undistort(TheInputImage,TheUndInputImage, TheCameraParams.CameraMatrix,TheCameraParams.Distorsion);
+        //detect markers
+        MDetector.detect(TheUndInputImage,TheMarkers,TheCameraParams.CameraMatrix,Mat(),TheMarkerSize);
+        //Detection of the board
+        TheBoardDetected.second=TheBoardDetector.detect( TheMarkers, TheBoardConfig,TheBoardDetected.first, TheCameraParams,TheMarkerSize);
+        //chekc the speed by calculating the mean speed of all iterations
+        //resize the image to the size of the GL window
+        cv::resize(TheUndInputImage,TheResizedImage,TheGlWindowSize);
+    }
+    glutPostRedisplay();
+}
 
 /**********************************************************
  *
@@ -258,32 +325,67 @@ glutSwapBuffers(); // In double buffered mode we invert the positions of the vis
 
 int main(int argc, char **argv)
 {
-	if (argc!=2) {
-        std::cerr<<"Invalid number of arguments"<<std::endl;
-        std::cerr<<"Usage: (in.avi|live) boardConfig.yml  intrinsics.yml   size "<<std::endl;
+	if (argc!=6) {
+        cerr<<"ombre d'arguments invalide"<<endl;
+        cerr<<"Ordre demandé : objet (triagulaire) .obj (in.avi|live) boardConfig.yml  intrinsics.yml   size "<<endl;
         return false;
     }
+	// .obj à récupérer
+	std::string obj = argv[1];
+
+	/** Dépendance à Aruco et OpenCv **/
+
+	//vidéo
+	TheInputVideo=argv[2];
+
+	//Fichier config du board
+    TheBoardConfigFile=argv[3];
+
+	//Caméra calibration info
+    TheIntrinsicFile=argv[4];
+
+	//taille des marqueurs
+    TheMarkerSize=atof(argv[5]);
+
+	//Lecture des infos du board
+        TheBoardConfig.readFromFile(TheBoardConfigFile);
+
+        //Open video input source
+        if (TheInputVideo=="")  //read from camera
+            TheVideoCapturer.open(0);
+        else TheVideoCapturer.open(TheInputVideo);
+        if (!TheVideoCapturer.isOpened())
+        {
+            cerr<<"Could not open video"<<endl;
+            return -1;
+
+        }
+
+        //read first image
+        TheVideoCapturer>>TheInputImage;
+        //read camera paramters if passed
+        TheCameraParams.readFromXMLFile(TheIntrinsicFile);
+        TheCameraParams.resize( TheInputImage.size());
+
+	/** fin dépendance aruco/openCv **/
+
     // We use the GLUT utility to initialize the window, to handle the input and to interact with the windows system
     glutInit(&argc, argv);    
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(screen_width,screen_height);
+	screen_width = TheInputImage.size().width;
+	screen_height = TheInputImage.size().height;
+    glutInitWindowSize(screen_width,screen_height); //Aruco
     glutInitWindowPosition(0,0);
     glutCreateWindow("Echap pour quitter");    
     glutDisplayFunc(display);
-    glutIdleFunc(display);
+    glutIdleFunc(vIdle);
     glutReshapeFunc (resize);
 
 	// (mouse) movement and keyboard
 	//glutPassiveMotionFunc(mouseMovement); 
 	glutKeyboardFunc (keyboard); 
 
-	std::string obj = argv[1];
-	char *cstr = new char[obj.length() + 1];
-	strcpy(cstr, obj.c_str());
-	// do stuff
-	
-	init(cstr);
-	delete [] cstr;
+	init(obj);
     glutMainLoop();
 
     return(0);    

@@ -2,6 +2,12 @@
 #define OBJLOAD
 #define _CRT_SECURE_NO_DEPRECATE
 
+#include <stdio.h>
+#include <iostream>
+#include <io.h>
+#include <stdlib.h>
+#include "GL\glut.h" 
+
 /************************************************
 *Loads obj file - limited to vertices, faces, normals, texture maps
 *loads to object structure as defined in .h file
@@ -38,7 +44,7 @@ public:
 int id_texture; 
 object_type(){}
 ~object_type(){}
-int objloader(char *p_filename); 
+int objloader(std::string p_filename); 
 int objdatadisplay();
 void render();
 

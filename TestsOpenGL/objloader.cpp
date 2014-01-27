@@ -3,11 +3,7 @@
 *loads to object structure as defined in .h file
 ************************************************************/
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <iostream>
-#include <io.h>
-#include <stdlib.h>
-#include "GL\glut.h"
+
 
 #include "objloader.h"
 
@@ -102,7 +98,7 @@ return 1;
 }
 
 
-int object_type::objloader(char *p_filename)
+int object_type::objloader(string p_filename)
 {
     int ivertex=0; //Index variable
     int inormal =0;
@@ -113,9 +109,9 @@ FILE *l_file; //File pointer
 
 char l_char; //Char variable
 
-unsigned short l_face_flags; //Flag that stores some face information
+//unsigned short l_face_flags; //Flag that stores some face information
 
-if ((l_file=fopen (p_filename, "rt"))== NULL) return 0; //Open the file
+if ((l_file=fopen (p_filename.c_str(), "rt"))== NULL) return 0; //Open the file
 
 
 while (!feof(l_file)) //Loop to scan the whole file 
