@@ -246,9 +246,9 @@ void display(void)
     glRotatef(xrot,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
 
     glRotatef(yrot,0.0,1.0,0.0);
-	**/
-	glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our camera
 	
+	glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our camera
+	**/
 
 if (objarray[0]->id_texture!=-1) 
 {
@@ -284,7 +284,8 @@ glTranslatef(5.0,0.0,-20.0);
         glColor3f(0,1,0);
         glTranslatef(0, TheMarkerSize/2,0);
         glPushMatrix();
-        glutWireTeapot( TheMarkerSize );
+        objarray[0]->render();
+		//glutWireTeapot( TheMarkerSize );
         axis(TheMarkerSize);
         glPopMatrix();
     }
