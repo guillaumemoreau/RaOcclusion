@@ -241,6 +241,13 @@ void display(void)
     glPushMatrix();
 	glLoadIdentity(); // Initialize the model matrix as identity
 
+	glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
+    glViewport(0, 0, TheGlWindowSize.width , TheGlWindowSize.height);
+    glDisable(GL_TEXTURE_2D);
+    glPixelZoom( 1, -1);
+    glRasterPos3f( 0, TheGlWindowSize.height  - 0.5, -1.0 );
+    glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) );
+
 	/** Pour déplacer la caméra par souris/clavier, bon moyen vu qu'on track la caméra !
     glTranslatef(0.0f, 0.0f, -cRadius); // We move the object forward (the model matrix is multiplied by the translation matrix)
     glRotatef(xrot,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
