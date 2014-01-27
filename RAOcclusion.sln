@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PriseEnMainOpenGL", "Consol
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestsOpenGL", "TestsOpenGL\TestsOpenGL.vcxproj", "{B70B9DF7-0A6B-4B51-B6F7-D8AE1B228CE6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjetEtTracking", "ObjetEtTracking\ObjetEtTracking.vcxproj", "{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -69,6 +71,19 @@ Global
 		{B70B9DF7-0A6B-4B51-B6F7-D8AE1B228CE6}.Release|Win32.ActiveCfg = Release|x64
 		{B70B9DF7-0A6B-4B51-B6F7-D8AE1B228CE6}.Release|x64.ActiveCfg = Release|x64
 		{B70B9DF7-0A6B-4B51-B6F7-D8AE1B228CE6}.Release|x64.Build.0 = Release|x64
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Debug|ARM.ActiveCfg = Debug|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Debug|Win32.ActiveCfg = Debug|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Debug|Win32.Build.0 = Debug|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Debug|x64.ActiveCfg = Debug|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Release|ARM.ActiveCfg = Release|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Release|Win32.ActiveCfg = Release|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Release|Win32.Build.0 = Release|Win32
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Release|x64.ActiveCfg = Release|x64
+		{73E4A4B9-9CFB-4543-84DF-E1D7DB7EA765}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
