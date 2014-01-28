@@ -119,6 +119,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\TestsOpenGL\objloader.cpp" />
     <ClCompile Include="aruco_test_board_gl.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +128,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\TestsOpenGL\objloader.h" />
     <ClInclude Include="common.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

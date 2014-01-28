@@ -66,7 +66,7 @@ pair<Board,float> TheBoardDetected; //the board and its probability
 void init(string obj)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0); // Clear background color to black
-
+	
     // Viewport transformation
     glViewport(0,0,screen_width,screen_height);  
 
@@ -96,8 +96,9 @@ glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Texture mapping perspecti
     //glEnable(GL_TEXTURE_2D); // Texture mapping ON
     glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
 glEnable(GL_CULL_FACE); // Enable the back face culling
-    glEnable(GL_DEPTH_TEST); // Enable the depth test 
+   // glEnable(GL_DEPTH_TEST); // Enable the depth test -> Affiche plus la vidéo si actif !
 
+	
 glTranslatef(0.0f, 0.0f, -cRadius);
     glRotatef(xrot,1.0,0.0,0.0);
 
@@ -235,46 +236,25 @@ yrot += (float) diffx;    //set the xrot to yrot with the addition of the differ
 
 void display(void)
 {
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // This clear the background color to dark blue
+    if (TheResizedImage.rows==0) //prevent from going on until the image is initialized
+        return;
+    ///clear
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    ///draw image in the buffer
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
     glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-	glLoadIdentity(); // Initialize the model matrix as identity
-
-	glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
+    glLoadIdentity();
+    glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
     glViewport(0, 0, TheGlWindowSize.width , TheGlWindowSize.height);
     glDisable(GL_TEXTURE_2D);
     glPixelZoom( 1, -1);
     glRasterPos3f( 0, TheGlWindowSize.height  - 0.5, -1.0 );
     glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) );
-
-	/** Pour déplacer la caméra par souris/clavier, bon moyen vu qu'on track la caméra !
-    glTranslatef(0.0f, 0.0f, -cRadius); // We move the object forward (the model matrix is multiplied by the translation matrix)
-    glRotatef(xrot,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
-
-    glRotatef(yrot,0.0,1.0,0.0);
-	
-	glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our camera
-	**/
-
-if (objarray[0]->id_texture!=-1) 
-{
-    glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
-    glEnable(GL_TEXTURE_2D); // Texture mapping ON
-    //printf("Txt map ON");
-}
-else
-    glDisable(GL_TEXTURE_2D); // Texture mapping OFF
-
-
-/** Sert à ?
-glPopMatrix();
-glPushMatrix();
-glTranslatef(5.0,0.0,-20.0);
-**/
-
-	/**Aruco et OpenCv dependances ! **/
-	double proj_matrix[16];
+    ///Set the appropriate projection matrix so that rendering is done in a enrvironment
+    //like the real camera (without distorsion)
+    glMatrixMode(GL_PROJECTION);
+    double proj_matrix[16];
     TheCameraParams.glGetProjectionMatrix(TheInputImage.size(),TheGlWindowSize,proj_matrix,0.05,10);
     glLoadIdentity();
     glLoadMatrixd(proj_matrix);
@@ -282,6 +262,20 @@ glTranslatef(5.0,0.0,-20.0);
     //now, for each marker,
     double modelview_matrix[16];
 
+    /*    for (unsigned int m=0;m<TheMarkers.size();m++)
+        {
+            TheMarkers[m].glGetModelViewMatrix(modelview_matrix);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+            glLoadMatrixd(modelview_matrix);
+    // 		axis(TheMarkerSize);
+            glColor3f(1,0.4,0.4);
+            glTranslatef(0, TheMarkerSize/2,0);
+            glPushMatrix();
+            glutWireCube( TheMarkerSize );
+
+            glPopMatrix();
+        }*/
     //If the board is detected with enough probability
     if (TheBoardDetected.second>0.3) {
         TheBoardDetected.first.glGetModelViewMatrix(modelview_matrix);
@@ -291,13 +285,29 @@ glTranslatef(5.0,0.0,-20.0);
         glColor3f(0,1,0);
         glTranslatef(0, TheMarkerSize/2,0);
         glPushMatrix();
-        objarray[0]->render();
-		//glutWireTeapot( TheMarkerSize );
+		
+		if (objarray[0]->id_texture!=-1) 
+		{
+			glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
+			glEnable(GL_TEXTURE_2D); // Texture mapping ON
+			//printf("Txt map ON");
+		}
+		else
+			glDisable(GL_TEXTURE_2D); // Texture mapping OFF
+		
+		 glMatrixMode(GL_MODELVIEW); // Modeling transformation
+
+
+		objarray[0]->render();
+
+        //glutWireTeapot( TheMarkerSize );
         axis(TheMarkerSize);
         glPopMatrix();
     }
-	glFlush(); // This force the execution of OpenGL commands
-    glutSwapBuffers(); // In double buffered mode we invert the positions of the visible buffer and the writing buffer
+
+    glutSwapBuffers();
+
+
 }
 
 /** vIdle, détecte les marqueurs entre chaque itération **/
@@ -333,11 +343,19 @@ void vIdle()
 
 int main(int argc, char **argv)
 {
+	/** Pour débugger plus vite !
 	if (argc!=6) {
         cerr<<"ombre d'arguments invalide"<<endl;
         cerr<<"Ordre demandé : objet (triagulaire) .obj (in.avi|live) boardConfig.yml  intrinsics.yml   size "<<endl;
         return false;
-    }
+    }**/
+
+	argv[1] = "voiture.obj";
+	argv[2] = "video.avi";
+	argv[3] = "board_meters.yml";
+	argv[4] = "intrinsics.yml";
+	argv[5] = "0.039";
+
 	// .obj à récupérer
 	std::string obj = argv[1];
 
@@ -382,8 +400,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	screen_width = TheInputImage.size().width;
 	screen_height = TheInputImage.size().height;
-    glutInitWindowSize(screen_width,screen_height); //Aruco
-    glutInitWindowPosition(0,0);
+	glutInitWindowSize(TheInputImage.size().width,TheInputImage.size().height);    glutInitWindowPosition(0,0);
     glutCreateWindow("Echap pour quitter");    
     glutDisplayFunc(display);
     glutIdleFunc(vIdle);
