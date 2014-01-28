@@ -251,8 +251,8 @@ void display(void)
     glPixelZoom( 1, -1);
     glRasterPos3f( 0, TheGlWindowSize.height  - 0.5, -1.0 );
     glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) );
-    ///Set the appropriate projection matrix so that rendering is done in a enrvironment
-    //like the real camera (without distorsion)
+
+    ///On récupère la matrice de projection afin de faire nos rendus dans l'environnement comme si on filmait depuis la caméra
     glMatrixMode(GL_PROJECTION);
     double proj_matrix[16];
     TheCameraParams.glGetProjectionMatrix(TheInputImage.size(),TheGlWindowSize,proj_matrix,0.05,10);
