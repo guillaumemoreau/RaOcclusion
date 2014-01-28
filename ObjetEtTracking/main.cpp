@@ -282,10 +282,10 @@ void display(void)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glLoadMatrixd(modelview_matrix);
-        glColor3f(0,1,0);
-        glTranslatef(0, TheMarkerSize/2,0);
+        //glColor3f(0,1,0);
+        glTranslatef(0, TheMarkerSize,0);
         glPushMatrix();
-		
+
 		if (objarray[0]->id_texture!=-1) 
 		{
 			glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
@@ -295,12 +295,9 @@ void display(void)
 		else
 			glDisable(GL_TEXTURE_2D); // Texture mapping OFF
 		
-		 glMatrixMode(GL_MODELVIEW); // Modeling transformation
-
-
 		objarray[0]->render();
 
-        //glutWireTeapot( TheMarkerSize );
+       // glutWireTeapot( TheMarkerSize );
         axis(TheMarkerSize);
         glPopMatrix();
     }
