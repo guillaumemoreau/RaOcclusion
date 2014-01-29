@@ -11,11 +11,11 @@ using namespace std;
 
 void object_type::render()
 {
-    glBegin(GL_TRIANGLES); // glBegin and glEnd delimit the vertices that define a primitive (in our case triangles)
+    glBegin(GL_TRIANGLES); // glBegin and glEnd délimitent les sommets définissant la forme primitive (Triangles ici)
 
     for (int j=0;j<polygons_qty;j++)
     {
-        //----------------- FIRST VERTEX -----------------
+        //----------------- Premier sommet -----------------
         //Normal coordinates of the first vertex
         glNormal3f( normcoord[ polygon[j].n[0] - 1 ].i,
                 normcoord[ polygon[j].n[0] - 1 ].j,
@@ -28,7 +28,7 @@ void object_type::render()
                 vertex[ polygon[j].v[0] - 1].y,
                 vertex[ polygon[j].v[0] - 1].z);
 
-        //----------------- SECOND VERTEX -----------------
+        //----------------- Deuxième sommet -----------------
         //Normal coordinates of the first vertex
         glNormal3f( normcoord[ polygon[j].n[1] - 1 ].i,
                 normcoord[ polygon[j].n[1] - 1 ].j,
@@ -41,7 +41,7 @@ void object_type::render()
                 vertex[ polygon[j].v[1] - 1].y,
                 vertex[ polygon[j].v[1] - 1].z);
 
-        //----------------- THIRD VERTEX -----------------
+        //----------------- Troisième sommet -----------------
         //Normal coordinates of the first vertex
         glNormal3f( normcoord[ polygon[j].n[2] - 1 ].i,
                 normcoord[ polygon[j].n[2] - 1 ].j,

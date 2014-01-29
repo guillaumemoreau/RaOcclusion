@@ -241,8 +241,9 @@ void display(void)
     ///clear
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     ///draw image in the buffer
-    glMatrixMode(GL_MODELVIEW);
+    glMatrixMode(GL_MODELVIEW); //Positionnement de la caméra
     glLoadIdentity();
+
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
@@ -282,8 +283,8 @@ void display(void)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glLoadMatrixd(modelview_matrix);
-        //glColor3f(0,1,0);
-        glTranslatef(0, TheMarkerSize,0);
+        glColor3f(0,1,0);
+        glTranslatef(0, TheMarkerSize/2,0); //On est pile sur le plan des markers
         glPushMatrix();
 
 		if (objarray[0]->id_texture!=-1) 
@@ -297,7 +298,7 @@ void display(void)
 		
 		objarray[0]->render();
 
-       // glutWireTeapot( TheMarkerSize );
+        glutWireTeapot( TheMarkerSize );
         axis(TheMarkerSize);
         glPopMatrix();
     }
@@ -347,7 +348,7 @@ int main(int argc, char **argv)
         return false;
     }**/
 
-	argv[1] = "voiture.obj";
+	argv[1] = "roue de charrue.obj";
 	argv[2] = "video.avi";
 	argv[3] = "board_meters.yml";
 	argv[4] = "intrinsics.yml";

@@ -274,7 +274,7 @@ int main(int argc, char **argv)
     glutReshapeFunc (resize);
 
 	// (mouse) movement and keyboard
-	//glutPassiveMotionFunc(mouseMovement); 
+	glutPassiveMotionFunc(mouseMovement); 
 	glutKeyboardFunc (keyboard); 
 
 	std::string obj = argv[1];
