@@ -219,14 +219,14 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // This clear the background color to dark blue
     glMatrixMode(GL_MODELVIEW); // Modeling transformation
     glPushMatrix();
-glLoadIdentity(); // Initialize the model matrix as identity
+	glLoadIdentity(); // Initialize the model matrix as identity
 
     glTranslatef(0.0f, 0.0f, -cRadius); // We move the object forward (the model matrix is multiplied by the translation matrix)
     glRotatef(xrot,1.0,0.0,0.0); // Rotations of the object (the model matrix is multiplied by the rotation matrices)
 
     glRotatef(yrot,0.0,1.0,0.0);
 
-glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our camera
+	glTranslated(-xpos,0.0f,-zpos); //translate the screen to the position of our camera
 
 
 if (objarray[0]->id_texture!=-1) 

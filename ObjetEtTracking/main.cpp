@@ -96,7 +96,7 @@ glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Texture mapping perspecti
     //glEnable(GL_TEXTURE_2D); // Texture mapping ON
     glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
 glEnable(GL_CULL_FACE); // Enable the back face culling
-   // glEnable(GL_DEPTH_TEST); // Enable the depth test -> Affiche plus la vidéo si actif !
+    //glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés
 
 	
 glTranslatef(0.0f, 0.0f, -cRadius);
@@ -243,15 +243,11 @@ void display(void)
     ///draw image in the buffer
     glMatrixMode(GL_MODELVIEW); //Positionnement de la caméra
     glLoadIdentity();
+	glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
-    glViewport(0, 0, TheGlWindowSize.width , TheGlWindowSize.height);
-    glDisable(GL_TEXTURE_2D);
-    glPixelZoom( 1, -1);
-    glRasterPos3f( 0, TheGlWindowSize.height  - 0.5, -1.0 );
-    glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) );
+	glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) );
 
     ///On récupère la matrice de projection afin de faire nos rendus dans l'environnement comme si on filmait depuis la caméra
     glMatrixMode(GL_PROJECTION);
@@ -284,7 +280,7 @@ void display(void)
         glLoadIdentity();
         glLoadMatrixd(modelview_matrix);
         glColor3f(0,1,0);
-        glTranslatef(0, TheMarkerSize/2,0); //On est pile sur le plan des markers
+        glTranslatef(0, 0.9,0); //On est pile sur le plan des markers
         glPushMatrix();
 
 		if (objarray[0]->id_texture!=-1) 
@@ -398,7 +394,8 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	screen_width = TheInputImage.size().width;
 	screen_height = TheInputImage.size().height;
-	glutInitWindowSize(TheInputImage.size().width,TheInputImage.size().height);    glutInitWindowPosition(0,0);
+	glutInitWindowSize(TheInputImage.size().width,TheInputImage.size().height);    
+	glutInitWindowPosition(0,0);
     glutCreateWindow("Echap pour quitter");    
     glutDisplayFunc(display);
     glutIdleFunc(vIdle);
