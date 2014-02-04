@@ -105,7 +105,7 @@ int main(int argc,char **argv)
         TheBoardConfig.readFromFile(TheBoardConfigFile);
 
         //Open video input source
-        if (TheInputVideo=="")  //read from camera
+        if (TheInputVideo=="live")  //read from camera
             TheVideoCapturer.open(0);
         else TheVideoCapturer.open(TheInputVideo);
         if (!TheVideoCapturer.isOpened())
