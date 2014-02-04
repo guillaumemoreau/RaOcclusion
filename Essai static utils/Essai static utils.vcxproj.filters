@@ -24,6 +24,9 @@
     <ClCompile Include="..\TestsOpenGL\objloader.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="C:\opencv\sources\samples\cpp\tutorial_code\calib3d\camera_calibration\camera_calibration.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">

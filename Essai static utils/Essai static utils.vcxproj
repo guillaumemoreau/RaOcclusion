@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClCompile Include="..\TestsOpenGL\objloader.cpp" />
     <ClCompile Include="aruco_test_board_gl.cpp" />
+    <ClCompile Include="C:\opencv\sources\samples\cpp\tutorial_code\calib3d\camera_calibration\camera_calibration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArucoLib\ArucoLib.vcxproj">

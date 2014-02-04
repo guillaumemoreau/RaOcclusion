@@ -271,7 +271,7 @@ void  MarkerDetector::detectRectangles ( const cv::Mat &thres,vector<std::vector
 void MarkerDetector::detectRectangles(const cv::Mat &thresImg,vector<MarkerCandidate> & OutMarkerCanditates)
 {
     vector<MarkerCandidate>  MarkerCanditates;
-    //calcualte the min_max contour sizes
+    //calculate the min_max contour sizes
     int minSize=_minSize*std::max(thresImg.cols,thresImg.rows)*4;
     int maxSize=_maxSize*std::max(thresImg.cols,thresImg.rows)*4;
     std::vector<std::vector<cv::Point> > contours2;
