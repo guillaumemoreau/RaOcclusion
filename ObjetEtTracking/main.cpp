@@ -350,20 +350,20 @@ void vIdle()
 int main(int argc, char **argv)
 {
 	/** Pour débugger plus vite !
-	if (argc!=6) {
-        cerr<<"ombre d'arguments invalide"<<endl;
-        cerr<<"Ordre demandé : objet (triagulaire) .obj (in.avi|live) boardConfig.yml  intrinsics.yml   size "<<endl;
+	if (a/rgc!=6) {
+        cerr<<"Nombre d'arguments invalide"<<endl;
+        cerr<<"Ordre demandé : objet (triagulaire) .obj (in.avi|live) boardConfig.yml  intrinsicsLogitech.yml   size "<<endl;
         return false;
     }**/
 	
-	// Lignes suivantes remplacées par le "command arguments" suivant : "$(RELEASE_DIR)/roue de charrue.obj" "$(RELEASE_DIR)/video.avi" "$(RELEASE_DIR)/board_meters.yml" "$(RELEASE_DIR)/intrinsics.yml" "0.039"
-	/* 
+	// Lignes suivantes remplacées par le "command arguments" suivant : "$(RELEASE_DIR)/roue de charrue.obj" "$(RELEASE_DIR)/video.avi" "$(RELEASE_DIR)/board_meters.yml" "$(RELEASE_DIR)/intrinsicsLogitech.yml" "0.039"
+	
 	argv[1] = "C:/Users/max/RaOcclusion/x64/Release/roue de charrue.obj";
 	argv[2] = "C:/Users/max/RaOcclusion/x64/Release/video.avi";
 	argv[3] = "C:/Users/max/RaOcclusion/x64/Release/board_meters.yml";
-	argv[4] = "C:/Users/max/RaOcclusion/x64/Release/intrinsics.yml";
+	argv[4] = "C:/Users/max/RaOcclusion/x64/Release/intrinsicsLogitech.yml";
 	argv[5] = "0.039";
-	*/
+	
 
 	// .obj à récupérer
 	std::string obj = argv[1];

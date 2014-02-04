@@ -32,6 +32,7 @@ or implied, of Rafael Muñoz Salinas.
 
 #include <stdio.h>
 #include <tchar.h>
+#include <gl\GL.h>
 #include <aruco/aruco.h>
 #include <aruco/cvdrawingutils.h>
 #include <opencv2/highgui/highgui.hpp>
