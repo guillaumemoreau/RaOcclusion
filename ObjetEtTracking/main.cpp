@@ -355,12 +355,15 @@ int main(int argc, char **argv)
         cerr<<"Ordre demandé : objet (triagulaire) .obj (in.avi|live) boardConfig.yml  intrinsics.yml   size "<<endl;
         return false;
     }**/
-
-	argv[1] = "roue de charrue.obj";
-	argv[2] = "video.avi";
-	argv[3] = "board_meters.yml";
-	argv[4] = "intrinsics.yml";
+	
+	// Lignes suivantes remplacées par le "command arguments" suivant : "$(RELEASE_DIR)/roue de charrue.obj" "$(RELEASE_DIR)/video.avi" "$(RELEASE_DIR)/board_meters.yml" "$(RELEASE_DIR)/intrinsics.yml" "0.039"
+	/* 
+	argv[1] = "C:/Users/max/RaOcclusion/x64/Release/roue de charrue.obj";
+	argv[2] = "C:/Users/max/RaOcclusion/x64/Release/video.avi";
+	argv[3] = "C:/Users/max/RaOcclusion/x64/Release/board_meters.yml";
+	argv[4] = "C:/Users/max/RaOcclusion/x64/Release/intrinsics.yml";
 	argv[5] = "0.039";
+	*/
 
 	// .obj à récupérer
 	std::string obj = argv[1];
