@@ -357,7 +357,7 @@ int main(int argc, char **argv)
     }**/
 	
 	// Lignes suivantes remplacées par le "command arguments" suivant : "$(RELEASE_DIR)/roue de charrue.obj" "$(RELEASE_DIR)/video.avi" "$(RELEASE_DIR)/board_meters.yml" "$(RELEASE_DIR)/intrinsicsLogitech.yml" "0.039"
-	
+
 	/**argv[1] = "roue de charrue.obj";
 	argv[2] = "video.avi";
 	argv[3] = "board_meters.yml";
