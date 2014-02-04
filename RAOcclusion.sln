@@ -34,7 +34,6 @@ Global
 		{DDAD214F-4A14-49B2-912E-A6BAE364FC24}.Release|Mixed Platforms.Build.0 = Release|x64
 		{DDAD214F-4A14-49B2-912E-A6BAE364FC24}.Release|Win32.ActiveCfg = Release|x64
 		{DDAD214F-4A14-49B2-912E-A6BAE364FC24}.Release|x64.ActiveCfg = Release|x64
-		{DDAD214F-4A14-49B2-912E-A6BAE364FC24}.Release|x64.Build.0 = Release|x64
 		{9160934F-8785-4B68-83D4-8E1D90764A75}.Debug|ARM.ActiveCfg = Debug|x64
 		{9160934F-8785-4B68-83D4-8E1D90764A75}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{9160934F-8785-4B68-83D4-8E1D90764A75}.Debug|Mixed Platforms.Build.0 = Debug|x64

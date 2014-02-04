@@ -358,11 +358,11 @@ int main(int argc, char **argv)
 	
 	// Lignes suivantes remplacées par le "command arguments" suivant : "$(RELEASE_DIR)/roue de charrue.obj" "$(RELEASE_DIR)/video.avi" "$(RELEASE_DIR)/board_meters.yml" "$(RELEASE_DIR)/intrinsicsLogitech.yml" "0.039"
 	
-	argv[1] = "C:/Users/max/RaOcclusion/x64/Release/roue de charrue.obj";
-	argv[2] = "C:/Users/max/RaOcclusion/x64/Release/video.avi";
-	argv[3] = "C:/Users/max/RaOcclusion/x64/Release/board_meters.yml";
-	argv[4] = "C:/Users/max/RaOcclusion/x64/Release/intrinsicsLogitech.yml";
-	argv[5] = "0.039";
+	/**argv[1] = "roue de charrue.obj";
+	argv[2] = "video.avi";
+	argv[3] = "board_meters.yml";
+	argv[4] = "intrinsics.yml";
+	argv[5] = "0.039";*/
 	
 
 	// .obj à récupérer
@@ -386,7 +386,7 @@ int main(int argc, char **argv)
         TheBoardConfig.readFromFile(TheBoardConfigFile);
 
         //Open video input source
-        if (TheInputVideo=="")  //read from camera
+        if (TheInputVideo=="live")  //read from camera
             TheVideoCapturer.open(0);
         else TheVideoCapturer.open(TheInputVideo);
         if (!TheVideoCapturer.isOpened())
