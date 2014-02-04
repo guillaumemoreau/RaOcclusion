@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArucoLib", "ArucoLib\ArucoLib.vcxproj", "{DDAD214F-4A14-49B2-912E-A6BAE364FC24}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PriseEnMainOpenGL", "ConsoleApplication1\ConsoleApplication1.vcxproj", "{9160934F-8785-4B68-83D4-8E1D90764A75}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PriseEnMainOpenGL", "PriseEnMainOpenGL\ConsoleApplication1.vcxproj", "{9160934F-8785-4B68-83D4-8E1D90764A75}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestsOpenGL", "TestsOpenGL\TestsOpenGL.vcxproj", "{B70B9DF7-0A6B-4B51-B6F7-D8AE1B228CE6}"
 EndProject

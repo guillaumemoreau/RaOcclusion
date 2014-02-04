@@ -303,7 +303,7 @@ void display(void)
 		else
 			glDisable(GL_TEXTURE_2D); // Texture mapping OFF
 		
-		objarray[0]->render();
+		//objarray[0]->render();
 
         glutWireTeapot( TheMarkerSize );
 
