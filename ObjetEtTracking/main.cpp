@@ -54,7 +54,8 @@ BoardDetector TheBoardDetector;
 BoardConfiguration TheBoardConfig;
 pair<Board,float> TheBoardDetected; //the board and its probability
 
-
+//test clavier pour zoom
+int facteurZoom = 1;
 /************************************
  *
  * SUBROUTINE init(void)
@@ -73,7 +74,7 @@ void init(string obj)
     // Projection transformation
     glMatrixMode(GL_PROJECTION); // Specifies which matrix stack is the target for matrix operations 
     glLoadIdentity(); // We initialize the projection matrix as identity
-    gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,5.0f,10000.0f);     
+    //gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,5.0f,10000.0f);     
 
 
 //Lights initialization and activation
@@ -108,7 +109,7 @@ for (int i=0;i<2;i++)
 {
 printf("*************\n");
     objarray[i] = new (object_type);
-    objarray[i]->objloader(obj);
+    objarray[i]->objloader(obj, 1);
     objarray[i]->objdatadisplay();      
 }
 
@@ -158,6 +159,11 @@ void keyboard (unsigned char key, int x, int y) {
     xrot += 1;
     if (xrot >360) xrot -= 360;
     }
+
+	if (key=='+')
+		facteurZoom++;
+	if (key=='-')
+		facteurZoom--;
 
     if (key=='z')
     {
@@ -243,16 +249,21 @@ void display(void)
     ///draw image in the buffer
     glMatrixMode(GL_MODELVIEW); //Positionnement de la caméra
     glLoadIdentity();
-	glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-	glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) );
+	 glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
+    glViewport(0, 0, TheGlWindowSize.width , TheGlWindowSize.height);
+    glDisable(GL_TEXTURE_2D);
+    glPixelZoom( 1, -1);
+    glRasterPos3f( 0, TheGlWindowSize.height  - 0.5, -1.0 );
+    glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) );
 
     ///On récupère la matrice de projection afin de faire nos rendus dans l'environnement comme si on filmait depuis la caméra
     glMatrixMode(GL_PROJECTION);
     double proj_matrix[16];
-    TheCameraParams.glGetProjectionMatrix(TheInputImage.size(),TheGlWindowSize,proj_matrix,0.05,10);
+
+    TheCameraParams.glGetProjectionMatrix(TheInputImage.size(),TheGlWindowSize,proj_matrix,0.05,facteurZoom*10);
     glLoadIdentity();
     glLoadMatrixd(proj_matrix);
     glLineWidth(2);
@@ -280,9 +291,9 @@ void display(void)
         glLoadIdentity();
         glLoadMatrixd(modelview_matrix);
         glColor3f(0,1,0);
-        glTranslatef(0, 0.9,0); //On est pile sur le plan des markers
+        glTranslatef(0, TheMarkerSize/2,0); //On est pile sur le plan des markers
         glPushMatrix();
-
+		
 		if (objarray[0]->id_texture!=-1) 
 		{
 			glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
@@ -295,6 +306,7 @@ void display(void)
 		objarray[0]->render();
 
         glutWireTeapot( TheMarkerSize );
+
         axis(TheMarkerSize);
         glPopMatrix();
     }

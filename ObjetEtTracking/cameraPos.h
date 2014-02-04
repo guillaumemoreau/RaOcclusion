@@ -61,6 +61,7 @@ bool readIntrinsicFile(string TheIntrinsicFile,Mat & TheIntriscCameraMatrix,Mat 
 	TheIntriscCameraMatrix.at<float>(1,2)*=AyFactor;
 
 	//debug
+	/**
 	cout<<"fx="<<TheIntriscCameraMatrix.at<float>(0,0)<<endl;
 	cout<<"fy="<<TheIntriscCameraMatrix.at<float>(1,1)<<endl;
 	cout<<"cx="<<TheIntriscCameraMatrix.at<float>(0,2)<<endl;
@@ -69,7 +70,8 @@ bool readIntrinsicFile(string TheIntrinsicFile,Mat & TheIntriscCameraMatrix,Mat 
 	cout<<"k2="<<TheDistorsionCameraParams.at<float>(1,0)<<endl;
 	cout<<"p1="<<TheDistorsionCameraParams.at<float>(2,0)<<endl;
 	cout<<"p2="<<TheDistorsionCameraParams.at<float>(3,0)<<endl;
-	
+	**/
+
 	return true;
 } 
 #endif

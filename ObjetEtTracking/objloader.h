@@ -43,7 +43,7 @@ public:
 int id_texture; 
 object_type(){}
 ~object_type(){}
-int objloader(std::string p_filename); 
+int objloader(std::string p_filename, float facteurZoom); 
 int objdatadisplay();
 void render();
 

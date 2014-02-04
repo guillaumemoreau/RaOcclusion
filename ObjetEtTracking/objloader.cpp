@@ -98,7 +98,7 @@ return 1;
 }
 
 
-int object_type::objloader(string p_filename)
+int object_type::objloader(string p_filename, float facteurZoom)
 {
     int ivertex=0; //Index variable
     int inormal =0;
@@ -146,6 +146,8 @@ while (!feof(l_file)) //Loop to scan the whole file
         {
              fscanf(l_file,"%c",&l_char); //read space char - ignore this
              fscanf(l_file,"%d",&polygon[ipolygon].v[i]); //read vertex.
+			 //On zoom/dezoom a besoin
+			 polygon[ipolygon].v[i] = polygon[ipolygon].v[i]*facteurZoom;
              fscanf(l_file,"%c",&l_char); //read space char - ignore this
              fscanf(l_file,"%d",&polygon[ipolygon].t[i]); //read text coord.
              fscanf(l_file,"%c",&l_char); //read space char - ignore this
