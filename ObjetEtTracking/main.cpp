@@ -55,7 +55,7 @@ BoardConfiguration TheBoardConfig;
 pair<Board,float> TheBoardDetected; //the board and its probability
 
 //test clavier pour zoom
-int facteurZoom = 1;
+float facteurZoom = 1;
 /************************************
  *
  * SUBROUTINE init(void)
@@ -109,7 +109,7 @@ for (int i=0;i<2;i++)
 {
 printf("*************\n");
     objarray[i] = new (object_type);
-    objarray[i]->objloader(obj, 1);
+    objarray[i]->objloader(obj);
     objarray[i]->objdatadisplay();      
 }
 
@@ -161,10 +161,11 @@ void keyboard (unsigned char key, int x, int y) {
     }
 
 	if (key=='+')
-		facteurZoom++;
+		facteurZoom=facteurZoom*2;
 	if (key=='-')
-		facteurZoom--;
-
+		facteurZoom=facteurZoom/2;
+	if (key=='0')
+		facteurZoom=1;
     if (key=='z')
     {
     xrot -= 1;
@@ -303,11 +304,15 @@ void display(void)
 		else
 			glDisable(GL_TEXTURE_2D); // Texture mapping OFF
 		
-		//objarray[0]->render();
+		objarray[0]->render(facteurZoom);
+
+		/**
+		Permet de faire grossir/minimiser les éléments affichés à l'écran (+ pour zoomer, - pour dézoomer, 1 pour revenir à la taille d'origine
+		**/
+		glScalef(facteurZoom, facteurZoom, facteurZoom);
 
         glutWireTeapot( TheMarkerSize );
 
-        axis(TheMarkerSize);
         glPopMatrix();
     }
 
@@ -358,7 +363,7 @@ int main(int argc, char **argv)
 	
 	// Lignes suivantes remplacées par le "command arguments" suivant : "$(RELEASE_DIR)/roue de charrue.obj" "$(RELEASE_DIR)/video.avi" "$(RELEASE_DIR)/board_meters.yml" "$(RELEASE_DIR)/intrinsicsLogitech.yml" "0.039"
 
-	/**argv[1] = "roue de charrue.obj";
+	/*argv[1] = "voiture.obj";
 	argv[2] = "video.avi";
 	argv[3] = "board_meters.yml";
 	argv[4] = "intrinsics.yml";
@@ -420,6 +425,7 @@ int main(int argc, char **argv)
 	//glutPassiveMotionFunc(mouseMovement); 
 	glutKeyboardFunc (keyboard); 
 
+	//initialisation de facteurZoom 
 	init(obj);
     glutMainLoop();
 

@@ -9,21 +9,16 @@
 
 using namespace std;
 
-void object_type::render()
+void object_type::render(float facteurZoom)
 {
     glBegin(GL_TRIANGLES); // glBegin and glEnd délimitent les sommets définissant la forme primitive (Triangles ici)
 
     for (int j=0;j<polygons_qty;j++)
     {
         //----------------- Premier sommet -----------------
-        //Normal coordinates of the first vertex
-        glNormal3f( normcoord[ polygon[j].n[0] - 1 ].i,
-                normcoord[ polygon[j].n[0] - 1 ].j,
-                normcoord[ polygon[j].n[0] - 1 ].k);
-        // Texture coordinates of the first vertex
-            glTexCoord2f( mapcoord[ polygon[j].t[0] - 1 ].u,
-                  mapcoord[ polygon[j].t[0] - 1 ].v);
+       
         // Coordinates of the first vertex
+		// Avec facteur de Zoom/DeZoom si besoin
         glVertex3f( vertex[ polygon[j].v[0] - 1].x,
                 vertex[ polygon[j].v[0] - 1].y,
                 vertex[ polygon[j].v[0] - 1].z);
@@ -54,6 +49,7 @@ void object_type::render()
                 vertex[ polygon[j].v[2] - 1].y,
                 vertex[ polygon[j].v[2] - 1].z);
     }
+
     glEnd();
 }
 
@@ -98,7 +94,7 @@ return 1;
 }
 
 
-int object_type::objloader(string p_filename, float facteurZoom)
+int object_type::objloader(string p_filename)
 {
     int ivertex=0; //Index variable
     int inormal =0;
@@ -146,8 +142,6 @@ while (!feof(l_file)) //Loop to scan the whole file
         {
              fscanf(l_file,"%c",&l_char); //read space char - ignore this
              fscanf(l_file,"%d",&polygon[ipolygon].v[i]); //read vertex.
-			 //On zoom/dezoom a besoin
-			 polygon[ipolygon].v[i] = polygon[ipolygon].v[i]*facteurZoom;
              fscanf(l_file,"%c",&l_char); //read space char - ignore this
              fscanf(l_file,"%d",&polygon[ipolygon].t[i]); //read text coord.
              fscanf(l_file,"%c",&l_char); //read space char - ignore this
