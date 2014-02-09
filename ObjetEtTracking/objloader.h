@@ -41,17 +41,15 @@ class object_type{
 		~object_type(){} /**< destructeur */
 		int objloader(std::string p_filename); /**< charger l'obj */
 		int objdatadisplay(); /**< affichage textuelle de l'obj chargé */
-		void render(float); /**< afficher graphique (OpenGL) de l'obj chargé */
-
+		void render(float); /**< affichage graphique (OpenGL) de l'obj chargé */
 	private:
-		int vertices_qty;
-		int polygons_qty;
+		int vertices_qty; 
+		int polygons_qty; /**< nombre de polygones */
 		int mapcoord_qty;
 		int normcoord_qty;
-
 		vertex_type vertex[MAX_VERTICES]; 
 		mapcoord_type mapcoord[MAX_VERTICES];
 		normcoord_type normcoord[MAX_NORMALS];
-		polygon_type polygon[MAX_POLYGONS];
+		polygon_type polygon[MAX_POLYGONS]; /**< matrices des polygones */
 };
 #endif
