@@ -54,15 +54,6 @@ void object_type::render(float facteurZoom)
 }
 
 
-/*
-vertex_type vertex[MAX_VERTICES]; 
-mapcoord_type mapcoord[MAX_VERTICES];
-normcoord_type normcoord[MAX_NORMALS];
-polygon_type polygon[MAX_POLYGONS];
-int id_texture
-*/
-
-
 int object_type::objdatadisplay()
 {
    int i;
