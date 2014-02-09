@@ -304,12 +304,12 @@ void display(void)
 		else
 			glDisable(GL_TEXTURE_2D); // Texture mapping OFF
 		
-		objarray[0]->render(facteurZoom);
-
 		/**
-		Permet de faire grossir/minimiser les éléments affichés à l'écran (+ pour zoomer, - pour dézoomer, 1 pour revenir à la taille d'origine
+		Permet de faire grossir/minimiser les éléments affichés à l'écran (+ pour zoomer, - pour dézoomer, 1 pour revenir à la taille d'origine)
 		**/
 		glScalef(facteurZoom, facteurZoom, facteurZoom);
+
+		objarray[0]->render(facteurZoom);
 
         glutWireTeapot( TheMarkerSize );
 
