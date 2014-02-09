@@ -74,7 +74,7 @@ void init(string obj)
     // Projection transformation
     glMatrixMode(GL_PROJECTION); // Specifies which matrix stack is the target for matrix operations 
     glLoadIdentity(); // We initialize the projection matrix as identity
-    //gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,5.0f,10000.0f);     
+    gluPerspective(70.0f,(GLfloat)screen_width/(GLfloat)screen_height,0.5f,100000000.0f);     
 
 
 //Lights initialization and activation
@@ -86,7 +86,7 @@ void init(string obj)
     glEnable (GL_LIGHTING);
 
     //Materials initialization and activation
-glMaterialfv (GL_FRONT, GL_AMBIENT, mat_ambient);
+	glMaterialfv (GL_FRONT, GL_AMBIENT, mat_ambient);
     glMaterialfv (GL_FRONT, GL_DIFFUSE, mat_diffuse);
     glMaterialfv (GL_FRONT, GL_DIFFUSE, mat_specular);
     glMaterialfv (GL_FRONT, GL_POSITION, mat_shininess);    
@@ -94,16 +94,10 @@ glMaterialfv (GL_FRONT, GL_AMBIENT, mat_ambient);
 //Other initializations
     glShadeModel(GL_SMOOTH); // Type of shading for the polygons
 glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Texture mapping perspective correction
-    //glEnable(GL_TEXTURE_2D); // Texture mapping ON
+    glEnable(GL_TEXTURE_2D); // Texture mapping ON
     glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
-glEnable(GL_CULL_FACE); // Enable the back face culling
-    //glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés
-
-	
-glTranslatef(0.0f, 0.0f, -cRadius);
-    glRotatef(xrot,1.0,0.0,0.0);
-
-angle++; //increase the angle
+	glEnable(GL_CULL_FACE); // Enable the back face culling
+    //glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
 
 for (int i=0;i<2;i++)
 {
@@ -138,7 +132,7 @@ if (screen_width==0 && screen_height==0) exit(0);
 
     glMatrixMode(GL_PROJECTION); // Projection transformation
     glLoadIdentity(); // We initialize the projection matrix as identity
-    gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,5.0f,10000.0f);
+    gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,1.0f,100000000.0f);
 
     glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
 	TheGlWindowSize=Size(screen_width,screen_height); //aruco
