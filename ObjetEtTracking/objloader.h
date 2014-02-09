@@ -42,6 +42,7 @@ class object_type{
 		int objloader(std::string p_filename); /**< charger l'obj */
 		int objdatadisplay(); /**< affichage textuelle de l'obj chargé */
 		void render(float); /**< affichage graphique (OpenGL) de l'obj chargé */
+		int id_texture; /**< id de la texture à utiliser */
 	private:
 		int vertices_qty; 
 		int polygons_qty; /**< nombre de polygones */

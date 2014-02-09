@@ -66,7 +66,7 @@ float facteurZoom = 1;
 
 void init(string obj)
 {
-    glClearColor(0.0, 0.0, 0.0, 0.0); // Clear background color to black
+    // glClearColor(0.0, 0.0, 0.0, 0.0); // Clear background color to black
 	
     // Viewport transformation
     glViewport(0,0,screen_width,screen_height);  
@@ -74,10 +74,10 @@ void init(string obj)
     // Projection transformation
     glMatrixMode(GL_PROJECTION); // Specifies which matrix stack is the target for matrix operations 
     glLoadIdentity(); // We initialize the projection matrix as identity
-    gluPerspective(70.0f,(GLfloat)screen_width/(GLfloat)screen_height,0.5f,100000000.0f);     
+    gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,0.5f,100000000.0f);     
 
 
-//Lights initialization and activation
+	//Lights initialization and activation
     glLightfv (GL_LIGHT1, GL_AMBIENT, light_ambient);
     glLightfv (GL_LIGHT1, GL_DIFFUSE, light_diffuse);
     glLightfv (GL_LIGHT1, GL_DIFFUSE, light_specular);
@@ -91,21 +91,21 @@ void init(string obj)
     glMaterialfv (GL_FRONT, GL_DIFFUSE, mat_specular);
     glMaterialfv (GL_FRONT, GL_POSITION, mat_shininess);    
 
-//Other initializations
+	//Other initializations
     glShadeModel(GL_SMOOTH); // Type of shading for the polygons
-glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Texture mapping perspective correction
+	glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Texture mapping perspective correction
     glEnable(GL_TEXTURE_2D); // Texture mapping ON
     glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
 	glEnable(GL_CULL_FACE); // Enable the back face culling
-    //glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
+    glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
 
-for (int i=0;i<2;i++)
-{
-printf("*************\n");
-    objarray[i] = new (object_type);
-    objarray[i]->objloader(obj);
-    objarray[i]->objdatadisplay();      
-}
+	for (int i=0;i<1;i++)
+	{
+	printf("*************\n");
+		objarray[i] = new (object_type);
+		objarray[i]->objloader(obj);
+		objarray[i]->objdatadisplay();      
+	}
 
 }
 
@@ -123,18 +123,19 @@ printf("*************\n");
 
 void resize (int p_width, int p_height)
 {
-if (screen_width==0 && screen_height==0) exit(0);
-    screen_width=p_width; // We obtain the new screen width values and store it
-    screen_height=p_height; // Height value
+	if (screen_width==0 && screen_height==0) exit(0);
 
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // We clear both the color and the depth buffer so to draw the next frame
-    glViewport(0,0,screen_width,screen_height); // Viewport transformation
+	screen_width=p_width; // We obtain the new screen width values and store it
+	screen_height=p_height; // Height value
 
-    glMatrixMode(GL_PROJECTION); // Projection transformation
-    glLoadIdentity(); // We initialize the projection matrix as identity
-    gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,1.0f,100000000.0f);
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // We clear both the color and the depth buffer so to draw the next frame
+	glViewport(0,0,screen_width,screen_height); // Viewport transformation
 
-    glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
+	glMatrixMode(GL_PROJECTION); // Projection transformation
+	glLoadIdentity(); // We initialize the projection matrix as identity
+	gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,1.0f,100000000.0f);
+
+	glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
 	TheGlWindowSize=Size(screen_width,screen_height); //aruco
 }
 
@@ -150,8 +151,8 @@ if (screen_width==0 && screen_height==0) exit(0);
 void keyboard (unsigned char key, int x, int y) {
     if (key=='q')
     {
-    xrot += 1;
-    if (xrot >360) xrot -= 360;
+		xrot += 1;
+		if (xrot >360) xrot -= 360;
     }
 
 	if (key=='+')
@@ -169,43 +170,43 @@ if (xrot < -360) xrot += 360;
 
     if (key=='w')
     {
-    float xrotrad, yrotrad;
-    yrotrad = (yrot / 180 * 3.141592654f);
-    xrotrad = (xrot / 180 * 3.141592654f); 
-    xpos += float(sin(yrotrad));
-    zpos -= float(cos(yrotrad));
-    ypos -= float(sin(xrotrad));
+		float xrotrad, yrotrad;
+		yrotrad = (yrot / 180 * 3.141592654f);
+		xrotrad = (xrot / 180 * 3.141592654f); 
+		xpos += float(sin(yrotrad));
+		zpos -= float(cos(yrotrad));
+		ypos -= float(sin(xrotrad));
     }
 
     if (key=='s')
     {
-    float xrotrad, yrotrad;
-    yrotrad = (yrot / 180 * 3.141592654f);
-    xrotrad = (xrot / 180 * 3.141592654f); 
-    xpos -= float(sin(yrotrad));
-    zpos += float(cos(yrotrad));
-    ypos += float(sin(xrotrad));
+		float xrotrad, yrotrad;
+		yrotrad = (yrot / 180 * 3.141592654f);
+		xrotrad = (xrot / 180 * 3.141592654f); 
+		xpos -= float(sin(yrotrad));
+		zpos += float(cos(yrotrad));
+		ypos += float(sin(xrotrad));
     }
 
     if (key=='d')
     {
-    float yrotrad;
-    yrotrad = (yrot / 180 * 3.141592654f);
-    xpos += float(cos(yrotrad)) * 0.2;
-    zpos += float(sin(yrotrad)) * 0.2;
+		float yrotrad;
+		yrotrad = (yrot / 180 * 3.141592654f);
+		xpos += float(cos(yrotrad)) * 0.2;
+		zpos += float(sin(yrotrad)) * 0.2;
     }
 
     if (key=='a')
     {
-    float yrotrad;
-    yrotrad = (yrot / 180 * 3.141592654f);
-    xpos -= float(cos(yrotrad)) * 0.2;
-    zpos -= float(sin(yrotrad)) * 0.2;
+		float yrotrad;
+		yrotrad = (yrot / 180 * 3.141592654f);
+		xpos -= float(cos(yrotrad)) * 0.2;
+		zpos -= float(sin(yrotrad)) * 0.2;
     }
 
     if (key==27)
     {
-    exit(0);
+		exit(0);
     }
 }
 
@@ -218,12 +219,12 @@ if (xrot < -360) xrot += 360;
  *********************************************************/
 
 void mouseMovement(int x, int y) {
-int diffx=x-lastx; //check the difference between the current x and the last x position
-int diffy=y-lasty; //check the difference between the current y and the last y position
-lastx=x; //set lastx to the current x position
-lasty=y; //set lasty to the current y position
-xrot += (float) diffy; //set the xrot to xrot with the addition of the difference in the y position
-yrot += (float) diffx;    //set the xrot to yrot with the addition of the difference in the x position
+	int diffx=x-lastx; //check the difference between the current x and the last x position
+	int diffy=y-lasty; //check the difference between the current y and the last y position
+	lastx=x; //set lastx to the current x position
+	lasty=y; //set lasty to the current y position
+	xrot += (float) diffy; //set the xrot to xrot with the addition of the difference in the y position
+	yrot += (float) diffx;    //set the xrot to yrot with the addition of the difference in the x position
 }
 
 
@@ -247,7 +248,7 @@ void display(void)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-	 glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
+	glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
     glViewport(0, 0, TheGlWindowSize.width , TheGlWindowSize.height);
     glDisable(GL_TEXTURE_2D);
     glPixelZoom( 1, -1);
@@ -419,7 +420,7 @@ int main(int argc, char **argv)
 	//glutPassiveMotionFunc(mouseMovement); 
 	glutKeyboardFunc (keyboard); 
 
-	//initialisation de facteurZoom 
+	//initialisation de l'obj
 	init(obj);
     glutMainLoop();
 
