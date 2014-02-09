@@ -97,7 +97,7 @@ void init(string obj)
     glEnable(GL_TEXTURE_2D); // Texture mapping ON
     glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
 	glEnable(GL_CULL_FACE); // Enable the back face culling
-    glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
+    //glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
 
 	for (int i=0;i<1;i++)
 	{
@@ -304,7 +304,7 @@ void display(void)
 		**/
 		glScalef(facteurZoom, facteurZoom, facteurZoom);
 
-		objarray[0]->render(facteurZoom);
+		//objarray[0]->render(facteurZoom);
 
         glutWireTeapot( TheMarkerSize );
 
