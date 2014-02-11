@@ -257,7 +257,7 @@ void display(void)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-	glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 1.0);
+	glOrtho(0, TheGlWindowSize.width, 0, TheGlWindowSize.height, -1.0, 5.0);
     glViewport(0, 0, TheGlWindowSize.width , TheGlWindowSize.height);
     glDisable(GL_TEXTURE_2D);
     glPixelZoom( 1, -1);
@@ -296,7 +296,7 @@ void display(void)
         glLoadIdentity();
         glLoadMatrixd(modelview_matrix);
         glColor3f(0,1,0);
-        glTranslatef(0, TheMarkerSize/2,0); //On est pile sur le plan des markers
+        glTranslatef(0, TheMarkerSize/2 + xpos/10,0); //On est pile sur le plan des markers
         glPushMatrix();
 		
 		if (objarray[0]->id_texture!=-1) 
@@ -313,7 +313,7 @@ void display(void)
 		**/
 		glScalef(facteurZoom, facteurZoom, facteurZoom);
 
-		//objarray[0]->render(facteurZoom);
+		objarray[0]->render(facteurZoom);
 
         glutWireTeapot( TheMarkerSize );
 
