@@ -54,8 +54,12 @@ BoardDetector TheBoardDetector;
 BoardConfiguration TheBoardConfig;
 pair<Board,float> TheBoardDetected; //the board and its probability
 
-//test clavier pour zoom
+//test clavier pour taille Objet
 float facteurZoom = 1;
+
+//test clavier pour Déplacement de l'objet
+float Zoom = 1;
+
 /************************************
  *
  * SUBROUTINE init(void)
@@ -162,8 +166,13 @@ void keyboard (unsigned char key, int x, int y) {
 	if (key=='0')
 		facteurZoom=1;
     if (key=='z')
-    {
-    xrot -= 1;
+		xrot -= 1;
+
+	//Déplacement de notre obj + Teillere
+	if(key=='8')
+		Zoom*2;
+	if(key=='2')
+		Zoom/2;
 
 if (xrot < -360) xrot += 360;
     }
