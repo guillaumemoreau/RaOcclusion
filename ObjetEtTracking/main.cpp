@@ -49,13 +49,13 @@ Size TheGlWindowSize=Size(screen_width,screen_height);
 bool TheCaptureFlag=true; 
 MarkerDetector MDetector;
 vector<Marker> TheMarkers;
-//board
+//la planche
 BoardDetector TheBoardDetector;
 BoardConfiguration TheBoardConfig;
-pair<Board,float> TheBoardDetected; //the board and its probability
+pair<Board,float> TheBoardDetected; //la planche et ses probas
 
 //test clavier pour taille Objet
-float facteurZoom = 1;
+float facteurZoom = 0.125f; //valeur pour tuture.obj
 
 /************************************
  *
@@ -98,7 +98,7 @@ void init(string obj)
     glEnable(GL_TEXTURE_2D); // Texture mapping ON
     glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
 	glEnable(GL_CULL_FACE); // Enable the back face culling
-    //glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
+   
 
 	for (int i=0;i<1;i++)
 	{
@@ -239,11 +239,11 @@ void mouseMovement(int x, int y) {
 
 void display(void)
 {
-    if (TheResizedImage.rows==0) //prevent from going on until the image is initialized
+    if (TheResizedImage.rows==0) //On attend que l'image soit bien réinitialisée avant de continuer
         return;
-    ///clear
+    ///C'est bon, image réinitialisée
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    ///draw image in the buffer
+    ///On rend l'image dans le buffer
     glMatrixMode(GL_MODELVIEW); //Positionnement de la caméra
     glLoadIdentity();
 
@@ -253,8 +253,9 @@ void display(void)
     glViewport(0, 0, TheGlWindowSize.width , TheGlWindowSize.height);
     glDisable(GL_TEXTURE_2D);
     glPixelZoom( 1, -1);
-    glRasterPos3f( 0, TheGlWindowSize.height  - 0.5, -1.0 );
-    glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) );
+    glRasterPos3f( 0, TheGlWindowSize.height  - 0.5, -1.0f );
+    glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) ); //rend la vidéo
+	
 
     ///On récupère la matrice de projection afin de faire nos rendus dans l'environnement comme si on filmait depuis la caméra
     glMatrixMode(GL_PROJECTION);
@@ -264,7 +265,7 @@ void display(void)
     glLoadIdentity();
     glLoadMatrixd(proj_matrix);
     glLineWidth(2);
-    //now, for each marker,
+    //Pour chaque marqueur (démo plus)
     double modelview_matrix[16];
 
     /*    for (unsigned int m=0;m<TheMarkers.size();m++)
@@ -281,21 +282,23 @@ void display(void)
 
             glPopMatrix();
         }*/
-    //If the board is detected with enough probability
+    //Si la planche est détecté avec assez de probabilités, on affiche l'objet
     if (TheBoardDetected.second>0.3) {
         TheBoardDetected.first.glGetModelViewMatrix(modelview_matrix);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glLoadMatrixd(modelview_matrix);
         glColor3f(0,1,0);
-        glTranslatef(0, TheMarkerSize/2 + xpos/10,0); //On est pile sur le plan des markers
+        glTranslatef(0, TheMarkerSize/2,0); //On est pile sur le plan des markers
         glPushMatrix();
 		
+		glEnable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
+
 		if (objarray[0]->id_texture!=-1) 
 		{
-			glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // We set the active texture 
-			glEnable(GL_TEXTURE_2D); // Texture mapping ON
-			//printf("Txt map ON");
+			glBindTexture(GL_TEXTURE_2D, objarray[0]->id_texture); // On active les textures
+			glEnable(GL_TEXTURE_2D); // Texture mapping ok
+			//printf("Textures chargées");
 		}
 		else
 			glDisable(GL_TEXTURE_2D); // Texture mapping OFF
@@ -307,9 +310,11 @@ void display(void)
 
 		objarray[0]->render(facteurZoom);
 
-        glutWireTeapot( TheMarkerSize );
+        //glutWireTeapot( TheMarkerSize );
 
+		glDisable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
         glPopMatrix();
+
     }
 
     glutSwapBuffers();
