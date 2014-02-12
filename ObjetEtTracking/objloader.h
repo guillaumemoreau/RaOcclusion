@@ -31,7 +31,7 @@ typedef struct{
 float u,v;
 }mapcoord_type;
 
-/** Type "object" pour manipuler un fichier d'extension "obj".
+/** Objet de manipulation d'un fichier d'extension "obj".
 * Permet de charger et afficher un fichier "obj". 
 * Seuls les sommets, faces, normales et "texture maps" sont récupérés.
 * Le chargement s'effectue vers les types (=struct) vertex_type, normcoord_type, polygon_type, mapcoord_type.
