@@ -1,11 +1,17 @@
+#include "cameraPos.h"
 #include "objloader.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
 
-
+#include <opencv/cv.h>
+#include <fstream>
 using namespace cv;
+
+//Aruco
+#include "aruco\aruco.h"
+
 using namespace aruco;
 
 
@@ -13,7 +19,7 @@ using namespace aruco;
 #include <windows.h>
 #endif
 
-#include "GL\glut.h"
+#include "GL\glut.h" 
 
 //Position de la voiture pour son déplacement dans la ville
 float xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, angle=0.0;
@@ -64,7 +70,7 @@ void init(string obj)
 {
      glClearColor(0.0, 0.0, 0.0, 0.0); // Met le fond en noir si aucune vidéo n'est chargé (cas limite)
 	
-    // Initialisation du viewport
+    // Initialisation du viewport (fênetre d'affichage)
     glViewport(0,0,screen_width,screen_height);  
 
     // Passage en mode Projection 
@@ -108,37 +114,32 @@ void init(string obj)
 
 /** Fonction appelée dès qu'un redimensionnement de la taille de la fenêtre est effectué.
  *
- * @param
- * Input parameters: p_width = width in pixels of our viewport
- *                   p_height = height in pixels of our viewport
- * 
- *********************************************************/
+ * @param p_width : largeur (pixels) de la vue (fenêtre)
+ * @param p_height : hauteur (pixels) de la vue (fenêtre)
+ */
 
 void resize (int p_width, int p_height)
 {
 	if (screen_width==0 && screen_height==0) exit(0);
 
-	screen_width=p_width; // We obtain the new screen width values and store it
-	screen_height=p_height; // Height value
+	screen_width=p_width; // On obtient la nouvelle taille de la fenêtre : ici largeur
+	screen_height=p_height; // et là, hauteur
 
-	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // We clear both the color and the depth buffer so to draw the next frame
-	glViewport(0,0,screen_width,screen_height); // Viewport transformation
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // O supprime les buffers de couleurs et de profondeurs pour la nouvelle image
+	glViewport(0,0,screen_width,screen_height); // Transformation de la fenêtre
 
-	glMatrixMode(GL_PROJECTION); // Projection transformation
-	glLoadIdentity(); // We initialize the projection matrix as identity
+	glMatrixMode(GL_PROJECTION); // Transformation de la matrice
+	glLoadIdentity(); // On réinitialise la matrice de projection à l'identité
 	gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,1.0f,100000000.0f);
 
-	glutPostRedisplay (); // This command redraw the scene (it calls the same routine of glutDisplayFunc)
-	TheGlWindowSize=Size(screen_width,screen_height); //aruco
+	glutPostRedisplay (); // On re-rend la scène
+	TheGlWindowSize=Size(screen_width,screen_height); //on sauvegarde la taille de la fenêtre pour la suite
 }
 
-/**********************************************************
- *
- * SUBROUTINE keyboard(void)
- *
- * Subroutine to handle keyboard input
- * 
- *********************************************************/
+/** Gestion du clavier.
+ * Prise en charge de la taille de l'objet (+/- et réinit à 0)
+ * et déplacements caméra/objet (pour débug principalement)
+ */
 
 
 void keyboard (unsigned char key, int x, int y) {
@@ -203,13 +204,9 @@ if (xrot < -360)
     }
 }
 
-/**********************************************************
- *
- * SUBROUTINE mouseMovement(void)
- *
- * Subroutine to handle mouse input
- * 
- *********************************************************/
+/** Support de la souris.
+ * Mouvement et clic. Pas utilisé pour le moment
+*/
 
 void mouseMovement(int x, int y) {
 	int diffx=x-lastx; //check the difference between the current x and the last x position
@@ -221,8 +218,7 @@ void mouseMovement(int x, int y) {
 }
 
 
-/**********************************************************
- *
+/** Génère l'image en cours 
  * SUBROUTINE display(void)
  *
  * This is our main rendering subroutine, called each frame
@@ -338,11 +334,10 @@ void vIdle()
     glutPostRedisplay();
 }
 
-/**********************************************************
- *
- * The main routine
- * 
- *********************************************************/
+/** La fonction main.
+* @param argv : listing des paramètres nécessaire : l'obj à charger, la vidéo ou live, la configuration de la planche, les données de corrections de déformations de la caméra et la taille des marqueurs (en m)
+*
+*/
 
 
 int main(int argc, char **argv)
@@ -383,26 +378,26 @@ int main(int argc, char **argv)
 	//Lecture des infos du board
         TheBoardConfig.readFromFile(TheBoardConfigFile);
 
-        //Open video input source
-        if (TheInputVideo=="live")  //read from camera
+        //CHarge la vidéo donnée en paramètre
+        if (TheInputVideo=="live")  //Lecture depuis la première webcam sur l'ordinateur
             TheVideoCapturer.open(0);
         else TheVideoCapturer.open(TheInputVideo);
         if (!TheVideoCapturer.isOpened())
         {
-            cerr<<"Could not open video"<<endl;
+            cerr<<"Impossible de lire la vidéo"<<endl;
             return -1;
 
         }
 
-        //read first image
+        //Lecture de la première image
         TheVideoCapturer>>TheInputImage;
-        //read camera paramters if passed
+        //Lit les paramètres de la caméra (passés en argument)
         TheCameraParams.readFromXMLFile(TheIntrinsicFile);
         TheCameraParams.resize( TheInputImage.size());
 
 	/** fin dépendance aruco/openCv **/
 
-    // We use the GLUT utility to initialize the window, to handle the input and to interact with the windows system
+    // On utilise GLUT pour charger la fenêtre, gérer les entrées (clavier/souris) et interraction avec la fenêtre
     glutInit(&argc, argv);    
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	screen_width = TheInputImage.size().width;
@@ -414,7 +409,7 @@ int main(int argc, char **argv)
     glutIdleFunc(vIdle);
     glutReshapeFunc (resize);
 
-	// (mouse) movement and keyboard
+	// Prise en charge du clavier et souris 
 	//glutPassiveMotionFunc(mouseMovement); 
 	glutKeyboardFunc (keyboard); 
 
