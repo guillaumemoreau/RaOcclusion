@@ -308,7 +308,7 @@ void display(void)
 		**/
 		glScalef(facteurZoom, facteurZoom, facteurZoom);
 
-		objarray[0]->render(facteurZoom);
+		objarray[0]->render();
 
         //glutWireTeapot( TheMarkerSize );
 
