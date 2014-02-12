@@ -1,4 +1,3 @@
-#include "cameraPos.h"
 #include "objloader.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,24 +13,24 @@ using namespace aruco;
 #include <windows.h>
 #endif
 
-#include "GL\glut.h"  //glut has all ogl relevant .h files included 
+#include "GL\glut.h"
 
-//angle of rotation
+//Position de la voiture pour son déplacement dans la ville
 float xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, angle=0.0;
 
-float cRadius = 10.0f; // our radius distance from our character
+float cRadius = 10.0f; // L'angle en degré de notre caractère (utile ?)
 
 float lastx, lasty;
 
-object_type *objarray[2];  //objects container for our world. Used throughout so global
+object_type *objarray[2];  //Contient notre objet à charger 
 
-//Lights settings
+//Paramètres de lumière
 GLfloat light_ambient[]= { 0.1f, 0.1f, 0.1f, 0.1f };
 GLfloat light_diffuse[]= { 1.0f, 1.0f, 1.0f, 0.0f };
 GLfloat light_specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
 GLfloat light_position[]= { 100.0f, 0.0f, -10.0f, 1.0f };
 
-//Materials settings
+//Paramètres des matériaux
 GLfloat mat_ambient[]= { 0.5f, 0.5f, 0.0f, 0.0f };
 GLfloat mat_diffuse[]= { 0.5f, 0.5f, 0.0f, 0.0f };
 GLfloat mat_specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
@@ -57,28 +56,24 @@ pair<Board,float> TheBoardDetected; //la planche et ses probas
 //test clavier pour taille Objet
 float facteurZoom = 0.125f; //valeur pour tuture.obj
 
-/************************************
- *
- * SUBROUTINE init(void)
- *
- * Used to initialize OpenGL and to setup our world
- *
-************************************/
+/** Initialisation d'OpenGl (vue, etc.)
+*
+*/
 
 void init(string obj)
 {
-    // glClearColor(0.0, 0.0, 0.0, 0.0); // Clear background color to black
+     glClearColor(0.0, 0.0, 0.0, 0.0); // Met le fond en noir si aucune vidéo n'est chargé (cas limite)
 	
-    // Viewport transformation
+    // Initialisation du viewport
     glViewport(0,0,screen_width,screen_height);  
 
-    // Projection transformation
-    glMatrixMode(GL_PROJECTION); // Specifies which matrix stack is the target for matrix operations 
-    glLoadIdentity(); // We initialize the projection matrix as identity
+    // Passage en mode Projection 
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity(); // Initialisation de la matrice de projection à l'identité
     gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,0.5f,100000000.0f);     
 
 
-	//Lights initialization and activation
+	//Initialisation et activation des lumières (utile ?)
     glLightfv (GL_LIGHT1, GL_AMBIENT, light_ambient);
     glLightfv (GL_LIGHT1, GL_DIFFUSE, light_diffuse);
     glLightfv (GL_LIGHT1, GL_DIFFUSE, light_specular);
@@ -86,18 +81,18 @@ void init(string obj)
     glEnable (GL_LIGHT1);
     glEnable (GL_LIGHTING);
 
-    //Materials initialization and activation
+    //Initialisation et activitation des matériaux (utile ?)
 	glMaterialfv (GL_FRONT, GL_AMBIENT, mat_ambient);
     glMaterialfv (GL_FRONT, GL_DIFFUSE, mat_diffuse);
     glMaterialfv (GL_FRONT, GL_DIFFUSE, mat_specular);
     glMaterialfv (GL_FRONT, GL_POSITION, mat_shininess);    
 
-	//Other initializations
-    glShadeModel(GL_SMOOTH); // Type of shading for the polygons
-	glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Texture mapping perspective correction
-    glEnable(GL_TEXTURE_2D); // Texture mapping ON
-    glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Polygon rasterization mode (polygon filled)
-	glEnable(GL_CULL_FACE); // Enable the back face culling
+	//Initialisations diverses d'OpenGl
+    glShadeModel(GL_SMOOTH); // Type des Shaders utilisés
+	glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Correction de la perspective du texture mapping
+    glEnable(GL_TEXTURE_2D); // Activation des textures
+    glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // Les polygones sont "remplies"
+	glEnable(GL_CULL_FACE); // Activation du back face culling
    
 
 	for (int i=0;i<1;i++)
@@ -111,12 +106,9 @@ void init(string obj)
 }
 
 
-/**********************************************************
+/** Fonction appelée dès qu'un redimensionnement de la taille de la fenêtre est effectué.
  *
- * SUBROUTINE resize(int p_width, int p_height)
- *
- * This routine must be called everytime we resize our window.
- *
+ * @param
  * Input parameters: p_width = width in pixels of our viewport
  *                   p_height = height in pixels of our viewport
  * 
