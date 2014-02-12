@@ -1,11 +1,4 @@
-/************************************************************
-* Charge un fichier d'extension "obj". 
-* Seuls les sommets, faces, normales et "texture maps" sont récupérés.
-* Le chargement s'effectue vers les types (=struct) vertex_type, normcoord_type, polygon_type, mapcoord_type.
-* L'affichage OpenGL peut être effectué directement grâce à render (sans se préoccuper des types précédents).
-************************************************************/
 #define _CRT_SECURE_NO_WARNINGS
-
 
 #include "objloader.h"
 
