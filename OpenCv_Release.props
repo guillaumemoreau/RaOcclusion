@@ -10,6 +10,7 @@
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(OPENCV_DIR)\..\..\include;$(ARUCO_DIR)\include;$(GLUT_DIR)\include</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4290;4244</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
