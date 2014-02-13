@@ -60,9 +60,8 @@ void FonctionsOpenGL::initialisation (std::string obj)
     gluPerspective(45.0f,(GLfloat)screen_width/(GLfloat)screen_height,0.5f,100000000.0f);     
 
 
-	//Initialisation et activation des lumières (utile ?)
-    /* 
-	GLfloat light_ambient[]= { 0.1f, 0.1f, 0.1f, 0.1f };
+	//Initialisation et activation des lumières (utile)
+   	GLfloat light_ambient[]= { 0.1f, 0.1f, 0.1f, 0.1f };
 	GLfloat light_diffuse[]= { 1.0f, 1.0f, 1.0f, 0.0f };
 	GLfloat light_specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
 	GLfloat light_position[]= { 100.0f, 0.0f, -10.0f, 1.0f };
@@ -72,10 +71,8 @@ void FonctionsOpenGL::initialisation (std::string obj)
     glLightfv (GL_LIGHT1, GL_POSITION, light_position);    
     glEnable (GL_LIGHT1);
     glEnable (GL_LIGHTING);
-	*/
 
     //Initialisation et activitation des matériaux (utile ?)
-	/*
 	GLfloat mat_ambient[]= { 0.5f, 0.5f, 0.0f, 0.0f };
 	GLfloat mat_diffuse[]= { 0.5f, 0.5f, 0.0f, 0.0f };
 	GLfloat mat_specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
@@ -83,8 +80,7 @@ void FonctionsOpenGL::initialisation (std::string obj)
 	glMaterialfv (GL_FRONT, GL_AMBIENT, mat_ambient);
     glMaterialfv (GL_FRONT, GL_DIFFUSE, mat_diffuse);
     glMaterialfv (GL_FRONT, GL_DIFFUSE, mat_specular);
-    glMaterialfv (GL_FRONT, GL_POSITION, mat_shininess);    
-	*/
+    glMaterialfv (GL_FRONT, GL_POSITION, mat_shininess);
 
 	//Initialisations diverses d'OpenGl
     glShadeModel(GL_SMOOTH); // Type des Shaders utilisés
