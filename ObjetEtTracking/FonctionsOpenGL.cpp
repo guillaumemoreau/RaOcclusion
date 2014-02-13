@@ -43,26 +43,6 @@ FonctionsOpenGL::FonctionsOpenGL(string TheInputVideo, string TheBoardConfigFile
 	TheGlWindowSize=Size(screen_width,screen_height);
 	TheCaptureFlag=true; 
 	facteurZoom = 0.125f; //valeur pour tuture.obj
-
-	// On utilise GLUT pour charger la fenêtre, gérer les entrées (clavier/souris) et interraction avec la fenêtre
-	int argc = 0;
-	char **argv;
-	glutInit(&argc, argv);    
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(getWidth(),getHeight());    
-	glutInitWindowPosition(0,0);
-	glutCreateWindow("ObjetEtTracking");
-	glutDisplayFunc(&this->display);
-	glutIdleFunc(&this->vIdle);
-	glutReshapeFunc (&this->resize);
-
-	// Prise en charge du clavier et souris 
-	//glutPassiveMotionFunc(mouseMovement); 
-	glutKeyboardFunc (&this->keyboard); 
-
-	//initialisation de l'obj
-	initialisation(argv[1]);
-	glutMainLoop();
     
 }
 
