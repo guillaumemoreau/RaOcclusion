@@ -111,7 +111,7 @@ void FonctionsOpenGL::resize (int p_width, int p_height)
 	screen_width=p_width; // On obtient la nouvelle taille de la fenêtre : ici largeur
 	screen_height=p_height; // et là, hauteur
 
-	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // O supprime les buffers de couleurs et de profondeurs pour la nouvelle image
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // On supprime les buffers de couleurs et de profondeurs pour la nouvelle image
 	glViewport(0,0,screen_width,screen_height); // Transformation de la fenêtre
 
 	glMatrixMode(GL_PROJECTION); // Transformation de la matrice
@@ -206,12 +206,14 @@ void FonctionsOpenGL::display(void)
     glRasterPos3f( 0, TheGlWindowSize.height  - 0.5, -1.0f );
     glDrawPixels ( TheGlWindowSize.width , TheGlWindowSize.height , GL_RGB , GL_UNSIGNED_BYTE , TheResizedImage.ptr(0) ); //rend la vidéo
 	
+	glAccum(GL_LOAD, 0.5);
 
     ///On récupère la matrice de projection afin de faire nos rendus dans l'environnement comme si on filmait depuis la caméra
     glMatrixMode(GL_PROJECTION);
     double proj_matrix[16];
 
     TheCameraParams.glGetProjectionMatrix(TheInputImage.size(),TheGlWindowSize,proj_matrix,0.05,facteurZoom*10);
+	
     glLoadIdentity();
     glLoadMatrixd(proj_matrix);
     glLineWidth(2);
@@ -259,7 +261,13 @@ void FonctionsOpenGL::display(void)
 		
 		// Grossir/réduire les éléments affichés à l'écran (+ pour zoomer, - pour dézoomer, 1 pour revenir à la taille d'origine) 
 		glScalef(facteurZoom, facteurZoom, facteurZoom);
-		
+
+		glClear( GL_COLOR_BUFFER_BIT);
+		glutSolidCube(TheMarkerSize*10);
+		glAccum(GL_ACCUM, 0);
+
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		// Rotation de la voiture dans le plan (xOz)
 		glRotatef(yrot,0.0,1.0,0.0);
 
@@ -268,12 +276,15 @@ void FonctionsOpenGL::display(void)
 
 		// Affichage de la voiture
 		objarray[0]->render();
+		glAccum(GL_ACCUM, 0.5);
 
         // Afficher théière de taille TheMarkerSize
 		// glutWireTeapot( TheMarkerSize );
 
 		glDisable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
-        glPopMatrix();
+       
+		glPopMatrix();
+		glAccum(GL_RETURN, 1);
 
     }
 

@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 
 	// On utilise GLUT pour charger la fenêtre, gérer les entrées (clavier/souris) et interraction avec la fenêtre
 	glutInit(&argc, argv);    
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH | GLUT_ACCUM);
 	glutInitWindowSize(openGL->getWidth(),openGL->getHeight());    
 	glutInitWindowPosition(0,0);
 	glutCreateWindow("ObjetEtTracking");
