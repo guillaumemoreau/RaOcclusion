@@ -132,61 +132,42 @@ void FonctionsOpenGL::resize (int p_width, int p_height)
  * et déplacements caméra/objet (pour débug principalement)
  */
 void FonctionsOpenGL::keyboard (unsigned char key, int x, int y) {
-    if (key=='q')
-    {
-		xrot += 1;
-		if (xrot >360) xrot -= 360;
-    }
 
+	/* Gestion du zoom */
 	if (key=='+')
 		facteurZoom=facteurZoom*2;
 	if (key=='-')
 		facteurZoom=facteurZoom/2;
 	if (key=='0')
 		facteurZoom=1;
-    if (key=='z')
-		xrot -= 1;
 
-if (xrot < -360) 
-	xrot += 360;
-    
-
-    if (key=='w')
+	/* Flèches directionnelles */
+	if (key=='z') //avancer
+	{
+		zpos += TheMarkerSize;
+	}
+	if (key=='s') //reculer
+	{
+		zpos -= TheMarkerSize;
+	}
+    if (key=='q') //tourner à gauche (en avancant)
     {
-		float xrotrad, yrotrad;
-		yrotrad = (yrot / 180 * 3.141592654f);
-		xrotrad = (xrot / 180 * 3.141592654f); 
-		xpos += float(sin(yrotrad));
-		zpos -= float(cos(yrotrad));
-		ypos -= float(sin(xrotrad));
+		yrot += 5; 
+		
+		float yrotrad = (yrot / 180 * 3.141592654f);
+		xpos += float(sin(yrotrad))*TheMarkerSize;
+		zpos += float(cos(yrotrad))*TheMarkerSize;
+    }
+    if (key=='d') //tourner à droite (en avancant)
+    {
+		yrot -= 5; 
+		
+		float yrotrad = (yrot / 180 * 3.141592654f);
+		xpos -= float(sin(yrotrad))*TheMarkerSize;
+		zpos += float(cos(yrotrad))*TheMarkerSize;
     }
 
-    if (key=='s')
-    {
-		float xrotrad, yrotrad;
-		yrotrad = (yrot / 180 * 3.141592654f);
-		xrotrad = (xrot / 180 * 3.141592654f); 
-		xpos -= float(sin(yrotrad));
-		zpos += float(cos(yrotrad));
-		ypos += float(sin(xrotrad));
-    }
-
-    if (key=='d')
-    {
-		float yrotrad;
-		yrotrad = (yrot / 180 * 3.141592654f);
-		xpos += float(cos(yrotrad)) * 0.2;
-		zpos += float(sin(yrotrad)) * 0.2;
-    }
-
-    if (key=='a')
-    {
-		float yrotrad;
-		yrotrad = (yrot / 180 * 3.141592654f);
-		xpos -= float(cos(yrotrad)) * 0.2;
-		zpos -= float(sin(yrotrad)) * 0.2;
-    }
-
+	/* Touche d'échappement (Echap = quitter) */
     if (key==27)
     {
 		exit(0);
@@ -280,14 +261,20 @@ void FonctionsOpenGL::display(void)
 		else
 			glDisable(GL_TEXTURE_2D); // Texture mapping OFF
 		
-		/**
-		Permet de faire grossir/minimiser les éléments affichés à l'écran (+ pour zoomer, - pour dézoomer, 1 pour revenir à la taille d'origine)
-		**/
+		// Grossir/réduire les éléments affichés à l'écran (+ pour zoomer, - pour dézoomer, 1 pour revenir à la taille d'origine) 
 		glScalef(facteurZoom, facteurZoom, facteurZoom);
+		
+		// Rotation de la voiture dans le plan (xOz)
+		glRotatef(yrot,0.0,1.0,0.0);
 
+		// Translation de la voiture dans le plan (xOz)
+		glTranslated(xpos,0.0f,zpos);
+
+		// Affichage de la voiture
 		objarray[0]->render();
 
-        //glutWireTeapot( TheMarkerSize );
+        // Afficher théière de taille TheMarkerSize
+		// glutWireTeapot( TheMarkerSize );
 
 		glDisable(GL_DEPTH_TEST); // Cache les éléments normalement cachés : c'est le Z-Buffer
         glPopMatrix();
