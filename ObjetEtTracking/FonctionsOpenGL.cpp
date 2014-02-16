@@ -38,8 +38,7 @@ FonctionsOpenGL::FonctionsOpenGL(string TheInputVideo, string TheBoardConfigFile
 	screen_height = TheInputImage.size().height;
 
 	/* Initialisation des autres attributs */
-	xpos = 0, ypos = 0, zpos = 0, xrot = 0, yrot = 0, angle=0.0;
-	cRadius = 10.0f; 
+	xpos = 0, ypos = 0, zpos = 0, yrot = 0;
 	TheGlWindowSize=Size(screen_width,screen_height);
 	TheCaptureFlag=true; 
 	facteurZoom = 0.125f; //valeur pour tuture.obj
@@ -148,7 +147,8 @@ void FonctionsOpenGL::keyboard (unsigned char key, int x, int y) {
 	}
     if (key=='q') //tourner à gauche (en avancant)
     {
-		yrot += 5; 
+		float distanceAZero = sqrt (xpos*xpos + zpos*zpos) / TheMarkerSize;
+		yrot += 40/distanceAZero; 
 		
 		float yrotrad = (yrot / 180 * 3.141592654f);
 		xpos += float(sin(yrotrad))*TheMarkerSize;
@@ -156,12 +156,15 @@ void FonctionsOpenGL::keyboard (unsigned char key, int x, int y) {
     }
     if (key=='d') //tourner à droite (en avancant)
     {
-		yrot -= 5; 
-		
+		float distanceAZero = sqrt (xpos*xpos + zpos*zpos) / TheMarkerSize;
+		yrot -= 20/distanceAZero; 
+
 		float yrotrad = (yrot / 180 * 3.141592654f);
 		xpos -= float(sin(yrotrad))*TheMarkerSize;
 		zpos += float(cos(yrotrad))*TheMarkerSize;
     }
+	if (key=='1')  // reinitialiser position voiture
+		xpos = 0, ypos = 0, zpos = 0, yrot = 0;
 
 	/* Touche d'échappement (Echap = quitter) */
     if (key==27)
@@ -174,12 +177,7 @@ void FonctionsOpenGL::keyboard (unsigned char key, int x, int y) {
  * Mouvement et clic. Pas utilisé pour le moment
 */
 void FonctionsOpenGL::mouseMovement(int x, int y) {
-	int diffx=x-lastx; //check the difference between the current x and the last x position
-	int diffy=y-lasty; //check the difference between the current y and the last y position
-	lastx=x; //set lastx to the current x position
-	lasty=y; //set lasty to the current y position
-	xrot += (float) diffy; //set the xrot to xrot with the addition of the difference in the y position
-	yrot += (float) diffx;    //set the xrot to yrot with the addition of the difference in the x position
+	
 }
 
 
