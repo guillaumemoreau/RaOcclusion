@@ -219,7 +219,8 @@ void FonctionsOpenGL::display(void)
     double modelview_matrix[16];
 
 	// Afficher un cube au dessus de chaque marker
-    /*    for (unsigned int m=0;m<TheMarkers.size();m++)
+    /*
+	for (unsigned int m=0;m<TheMarkers.size();m++)
         {
             TheMarkers[m].glGetModelViewMatrix(modelview_matrix);
             glMatrixMode(GL_MODELVIEW);
@@ -232,10 +233,11 @@ void FonctionsOpenGL::display(void)
             glutWireCube( TheMarkerSize );
 
             glPopMatrix();
-        }*/
+        }
+	*/
 
     //Si la planche est détecté avec assez de probabilités, on affiche l'objet
-    if (TheBoardDetected.second>0.3) {
+    if (TheBoardDetected.second>0.1) {
         TheBoardDetected.first.glGetModelViewMatrix(modelview_matrix);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
