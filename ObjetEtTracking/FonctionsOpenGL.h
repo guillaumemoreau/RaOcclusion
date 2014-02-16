@@ -22,11 +22,7 @@ using namespace aruco;
 class FonctionsOpenGL{
 	private:
 		/** Position de la voiture pour son déplacement dans la ville */
-		float xpos, ypos, zpos, xrot, yrot, angle;
-		/** L'angle en degré de notre caractère (utile ?) */
-		float cRadius; //= 10.0f; 
-		/** Ancienne position du curseur de la souris sur la vidéo */
-		float lastx, lasty;
+		float xpos, ypos, zpos, yrot;
 		/** Contient les obj à charger/afficher */
 		object_type *objarray[2];   
 		/** Dimensions de la fenetre */
