@@ -3,9 +3,13 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <io.h>
+//#include <io.h>
 #include <stdlib.h>
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
 #include "GL\glut.h" 
+#endif
 
 #define MAX_VERTICES 8000  // Nombre max de sommets 
 #define MAX_POLYGONS 8000  //Nombre max de polygones

@@ -11,9 +11,15 @@
 #include <opencv/cv.h>
 #include <fstream>
 using namespace cv;
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#include <aruco/aruco.h>
+#else
 #include "GL\glut.h" 
-//Aruco
 #include "aruco\aruco.h"
+#endif
+
+//Aruco
 using namespace aruco;
 
 #include "objloader.h"
