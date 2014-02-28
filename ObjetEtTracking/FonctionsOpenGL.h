@@ -60,6 +60,9 @@ class FonctionsOpenGL{
 		void vIdle();
 		int getWidth();
 		int getHeight();
+   
+      void displayVirtualHiddenWorld();
+      void displayVirtualWorld();
 };
 
 #endif
